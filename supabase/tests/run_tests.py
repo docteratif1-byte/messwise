@@ -342,7 +342,7 @@ def main():
     check("answer notified", any(n["kind"] == "answer" for n in call(S, "mw_notifications", None)))
 
     print("== reopen, edit, bill again")
-    expect_err("only owner reopens", "FORBIDDEN", call, R, "mw_month_reopen", P, "2026-11-01", "fix lunch")
+    expect_err("member cannot reopen", "FORBIDDEN", call, B, "mw_month_reopen", P, "2026-11-01", "fix lunch")
     call(K, "mw_month_reopen", P, "2026-11-01", "Lunch bill was Rs 3,500")
     call(K, "mw_meal_save", {"id": lunch["id"], "place_id": P, "day": "2026-11-15", "kind": "lunch", "title": "Biryani order", "amount_paisa": rs(3500),
                              "people": [{"subject": "member", "member_id": ids[n]} for n in ("Riaz", "Kamran", "Bilal", "Saad", "Hamza")],
@@ -378,6 +378,75 @@ def main():
     check("other member cannot read slip", r.stdout.strip() == "0")
     r = as_user(O, f"select count(*) from storage.objects where bucket_id = 'messwise';")
     check("outsider reads nothing", r.stdout.strip() == "0")
+
+    print("== money is the Canteen Manager's job")
+    A = make_user("Asad")
+    N = make_user("Nadia")
+    p2 = call(O, "mw_place_create", {"name": "Second Office", "kind": "office", "my_name": "Omar"}, today="2026-11-01")
+    P2 = p2["id"]
+    check("new place: owner is the Canteen Manager", p2["can"]["money"] and p2["can"]["manage"])
+    for who in (A, N):
+        call(who, "mw_join", p2["join_code"], today="2026-11-01")
+    for q in call(O, "mw_join_requests", P2):
+        call(O, "mw_join_decide", q["id"], {"approve": True, "type": "resident"}, today="2026-11-01")
+    m2 = {m["name"]: m["id"] for m in call(O, "mw_members", P2)}
+    call(O, "mw_member_role", m2["Asad"], {"role": "manager", "main": True})
+    can_o = call(O, "mw_place_get", P2)["can"]
+    check("owner without the post handles no money", not can_o["money"] and can_o["manage"] and can_o["owner"])
+    check("main Canteen Manager handles money", call(A, "mw_place_get", P2)["can"]["money"])
+    buy = {"place_id": P2, "bill": "tea", "item": "Milk", "amount_paisa": rs(1200), "bought_on": "2026-11-02"}
+    expect_err("owner cannot add purchases", "FORBIDDEN", call, O, "mw_purchase_save", buy, today="2026-11-02")
+    expect_err("owner cannot add meals", "FORBIDDEN", call, O, "mw_meal_save", {"place_id": P2, "day": "2026-11-02", "kind": "lunch", "amount_paisa": rs(900),
+                                                                               "people": [{"subject": "member", "member_id": m2["Nadia"]}]}, today="2026-11-02")
+    expect_err("owner cannot add parties", "FORBIDDEN", call, O, "mw_party_save", {"place_id": P2, "day": "2026-11-02", "title": "Dinner", "amount_paisa": rs(900),
+                                                                                  "people": [{"subject": "member", "member_id": m2["Nadia"]}]}, today="2026-11-02")
+    expect_err("owner cannot make final bills", "FORBIDDEN", call, O, "mw_month_bill", P2, "2026-11-01")
+    expect_err("owner cannot reopen months", "FORBIDDEN", call, O, "mw_month_reopen", P2, "2026-11-01", "check")
+    milk = call(A, "mw_purchase_save", buy, today="2026-11-02")
+    check("Canteen Manager adds purchases", milk["payers"][0]["name"] == "Asad")
+    check("owner still sees every entry", any(i["id"] == milk["id"] for i in call(O, "mw_entries", P2, "2026-11-01")["items"]))
+    check("owner sees no add or edit", call(O, "mw_entry_get", "purchase", milk["id"])["can_edit"] is False)
+    lv = call(O, "mw_leave_add", m2["Nadia"], {"from_date": "2026-11-25", "to_date": "2026-11-26", "note": "Home"})
+    check("owner places someone on leave", lv is not None)
+
+    print("== non-members at a party pay on the spot")
+    party = {"place_id": P2, "day": "2026-11-20", "title": "Farewell dinner", "amount_paisa": rs(5000),
+             "people": [{"subject": "member", "member_id": m2["Asad"]}, {"subject": "member", "member_id": m2["Nadia"]},
+                        {"subject": "walk_in", "name": "Driver", "heads": 1}, {"subject": "walk_in", "name": "Visitors", "heads": 2}],
+             "payers": [{"member_id": m2["Asad"], "amount_paisa": rs(5000)}]}
+    pt = call(A, "mw_party_save", party, today="2026-11-20")
+    check("five heads, Rs 1,000 each", pt["heads"] == 5 and pt["per_head_paisa"] == rs(1000) and pt["walk_in_each_paisa"] == rs(1000))
+    check("non-members paid Rs 3,000 on the spot", pt["walk_in_paisa"] == rs(3000) and pt["walk_in_heads"] == 3)
+    check("non-member names kept", sorted(p["name"] for p in pt["people"] if p["subject"] == "walk_in") == ["Driver", "Visitors"])
+    check("members' shares are the rest", sorted(s["share_paisa"] for s in pt["shares"]) == [rs(1000), rs(1000)])
+    check("cash counted as handed to the payer", pt["payers"][0]["received_paisa"] == rs(3000))
+    pb = {b["member_name"]: b for b in pt["bills"]}
+    check("payer gets back the rest", pb["Asad"]["total_paisa"] == -rs(1000) and pb["Asad"]["credit_paisa"] == rs(2000), str(pb["Asad"]))
+    check("member owes their share", pb["Nadia"]["total_paisa"] == rs(1000))
+    check("party adds up", sum(b["total_paisa"] for b in pt["bills"]) == 0)
+    bg = call(A, "mw_bill_get", pb["Asad"]["id"])
+    check("bill shows cash received", bg["paid_for_group"][0]["received_paisa"] == rs(3000))
+    odd = dict(party, title="Tea party", amount_paisa=rs(1000),
+               people=party["people"][:2] + [{"subject": "walk_in", "heads": 1}], payers=[{"member_id": m2["Asad"], "amount_paisa": rs(1000)}])
+    o2 = call(A, "mw_party_save", odd, today="2026-11-20")
+    check("uneven split in whole rupees", o2["walk_in_each_paisa"] == rs(333) and sum(s["share_paisa"] for s in o2["shares"]) == rs(667), str(o2["shares"]))
+    check("unnamed non-member", any(p["subject"] == "walk_in" and p["name"] is None for p in o2["people"]))
+    two = dict(party, title="Lunch out", payers=[{"member_id": m2["Asad"], "amount_paisa": rs(3000)}, {"member_id": m2["Nadia"], "amount_paisa": rs(2000)}])
+    t2 = call(A, "mw_party_save", two, today="2026-11-20")
+    got = {p["name"]: p["received_paisa"] for p in t2["payers"]}
+    check("cash split over payers by what they paid", got == {"Asad": rs(1800), "Nadia": rs(1200)}, str(got))
+    check("two-payer party adds up", sum(b["total_paisa"] for b in t2["bills"]) == 0)
+    expect_err("needs a member", "INVALID", call, A, "mw_party_save",
+               dict(party, people=[{"subject": "walk_in", "name": "Guests", "heads": 4}]), today="2026-11-20")
+    ed = call(A, "mw_party_save", dict(party, id=pt["id"], people=party["people"][:2], reason="Visitors did not come"), today="2026-11-20")
+    check("edit without non-members", ed["walk_in_paisa"] == 0 and ed["payers"][0]["received_paisa"] == 0
+          and sorted(s["share_paisa"] for s in ed["shares"]) == [rs(2500), rs(2500)])
+    mon = call(A, "mw_party_save", dict(party, title="Month dinner", add_to_month=True), today="2026-11-20")
+    rows2 = {r["name"]: r for r in call(A, "mw_month", P2, "2026-11-01", today="2026-11-20")["rows"]}
+    check("month bill credit less the cash", rows2["Asad"]["credit_paisa"] == rs(1200) + rs(2000), str(rows2["Asad"]["credit_paisa"]))
+    # The Rs 1,200 milk waits for a tea count, so only the party part is shared out yet.
+    check("month adds up", sum(r["total_paisa"] for r in rows2.values()) == -rs(1200), str({k: v["total_paisa"] for k, v in rows2.items()}))
+    check("member at the party sees it", any(i["id"] == mon["id"] for i in call(N, "mw_entries", P2, "2026-11-01", today="2026-11-20")["items"]))
 
     print("== private expense book")
     call(R, "mw_personal_save", {"amount_paisa": rs(4100), "category": "Food outside", "day": "2026-11-20"})

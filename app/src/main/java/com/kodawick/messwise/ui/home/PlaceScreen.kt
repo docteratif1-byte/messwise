@@ -134,7 +134,7 @@ fun PlaceScreen(placeId: String, nav: Nav, activity: MainActivity, onThemeChange
     ) { pad ->
         when (tab) {
             "home" -> Loaded(h) { HomeTab(it, nav, pad, onRefresh = { h.refresh() }) }
-            "entries" -> EntriesTab(placeId, d?.place?.can?.manage == true, nav, pad)
+            "entries" -> EntriesTab(placeId, d?.place?.can?.handlesMoney == true, nav, pad)
             "bills" -> BillsTab(placeId, d?.place, nav, pad)
             "book" -> PersonalTab(nav, pad)
             else -> MoreTab(placeId, d?.place, nav, pad)
@@ -284,8 +284,11 @@ private fun AddTeaCard(d: Dashboard, onRefresh: () -> Unit) {
 private fun ManagerPanel(d: Dashboard, nav: Nav) {
     val placeId = d.place.id
     val a = d.admin
+    val money = d.place.can.handlesMoney
     SectionCard(stringResource(R.string.manager_panel)) {
-        FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        // The owner (when not also the Canteen Manager) looks after members only; money is the Canteen Manager's.
+        if (!money) Hint(stringResource(R.string.owner_no_money_hint))
+        if (money) FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             QuickButton(Icons.Filled.EmojiFoodBeverage, stringResource(R.string.count_tea), "q_tea") { nav.navigate(Routes.tea(placeId)) }
             QuickButton(Icons.Filled.ShoppingBasket, stringResource(R.string.tea_purchase), "q_tea_buy") { nav.navigate(Routes.purchase(placeId, bill = "tea")) }
             QuickButton(Icons.Filled.Add, stringResource(R.string.kitchen_purchase), "q_kitchen_buy") { nav.navigate(Routes.purchase(placeId, bill = "kitchen")) }
@@ -294,11 +297,11 @@ private fun ManagerPanel(d: Dashboard, nav: Nav) {
         }
         if (a != null) {
             Spacer(Modifier.height(6.dp))
-            if (a.slipsWaiting > 0) ActionLine(pluralStringResource(R.plurals.slips_waiting, a.slipsWaiting, a.slipsWaiting)) { nav.navigate(Routes.slips(placeId)) }
+            if (money && a.slipsWaiting > 0) ActionLine(pluralStringResource(R.plurals.slips_waiting, a.slipsWaiting, a.slipsWaiting)) { nav.navigate(Routes.slips(placeId)) }
             if (a.joinRequests > 0) ActionLine(pluralStringResource(R.plurals.join_requests_n, a.joinRequests, a.joinRequests)) { nav.navigate(Routes.requests(placeId)) }
             if (a.openQuestions > 0) ActionLine(pluralStringResource(R.plurals.questions_open, a.openQuestions, a.openQuestions)) { nav.navigate(Routes.questions(placeId)) }
-            a.unbilledMonths.forEach { mm -> ActionLine(stringResource(R.string.month_not_billed, fmtMonth(mm))) { nav.navigate(Routes.month(placeId, mm)) } }
-            if (d.pending.isNotEmpty()) ActionLine(stringResource(R.string.send_reminders)) { nav.navigate(Routes.remind(placeId)) }
+            if (money) a.unbilledMonths.forEach { mm -> ActionLine(stringResource(R.string.month_not_billed, fmtMonth(mm))) { nav.navigate(Routes.month(placeId, mm)) } }
+            if (money && d.pending.isNotEmpty()) ActionLine(stringResource(R.string.send_reminders)) { nav.navigate(Routes.remind(placeId)) }
         }
     }
 }

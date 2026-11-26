@@ -74,7 +74,7 @@ fun BillsTab(placeId: String, place: Place?, nav: Nav, pad: PaddingValues) {
     var month by rememberSaveable { mutableStateOf(thisMonth()) }
     var filter by rememberSaveable { mutableStateOf("all") }
     val h = rememberLoad("bills", placeId, month) { Graph.repo.bills(placeId, month, unpaid = false) }
-    val manage = place?.can?.manage == true
+    val manage = place?.can?.handlesMoney == true
     Loaded(h, Modifier.padding(pad)) { all ->
         val me = place?.me?.id
         val bills = all.filter {

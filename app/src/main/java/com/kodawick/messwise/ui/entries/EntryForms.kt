@@ -1,6 +1,7 @@
 package com.kodawick.messwise.ui.entries
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.material.icons.filled.PersonAdd
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.MaterialTheme
@@ -219,12 +220,22 @@ private fun PartyForm(f: FormData, onBack: () -> Unit, pad: androidx.compose.fou
     val members = pickable(f.members, keep)
     val people = remember { mutableStateListOf<PersonInput>().apply { addAll(peopleFrom(members, e, useHeads = true)) } }
     var office by remember { mutableIntStateOf(officeFrom(e, useHeads = true)) }
+    val walkIns = remember { mutableStateListOf<WalkInInput>().apply {
+        e?.people?.filter { it.subject == "walk_in" }?.forEach { add(WalkInInput(it.name ?: "", it.heads)) }
+    } }
     val payers = remember { mutableStateListOf<PayerInput>().apply {
         if (e != null) e.payers.forEach { add(PayerInput(it.memberId, Money.toInput(it.amountPaisa))) } else add(PayerInput(f.place.me.id))
     } }
     val total = Money.parse(amount)
-    val heads = people.filter { it.selected }.sumOf { 1 + it.guests } + office
-    val ok = title.isNotBlank() && total != null && total > 0 && people.any { it.selected } && payersJson(payers, total) != null
+    val walkHeads = walkIns.sumOf { it.heads }
+    val heads = people.filter { it.selected }.sumOf { 1 + it.guests } + office + walkHeads
+    // Same as the server: each non-member pays the share per head, in whole rupees when the place rounds.
+    val each = if (total != null && heads > 0 && walkHeads > 0) {
+        if (f.place.roundToRupee) Math.round(total.toDouble() / heads / 100) * 100 else Math.round(total.toDouble() / heads)
+    } else null
+    val cash = each?.times(walkHeads)
+    val ok = title.isNotBlank() && total != null && total > 0 && people.any { it.selected } && payersJson(payers, total) != null &&
+        (cash == null || cash < total)
     val action = rememberAction()
     ScrollColumn(pad) {
         TextInput(title, { title = it.take(80) }, stringResource(R.string.party_title), supporting = stringResource(R.string.party_title_hint),
@@ -232,12 +243,18 @@ private fun PartyForm(f: FormData, onBack: () -> Unit, pad: androidx.compose.fou
         AmountField(amount, { amount = it }, stringResource(R.string.total_expenses), modifier = Modifier.testTag("party_amount"))
         DateField(day, { day = it }, stringResource(R.string.day))
         PeoplePicker(members, people, showUnits = false, officeGuests = office, onOfficeGuests = { office = it }, title = stringResource(R.string.who_attended))
+        WalkInsEditor(walkIns)
         if (office > 0) SectionCard(stringResource(R.string.office_guests_paid_by)) {
             ChoiceRow(listOf("all" to stringResource(R.string.split_everyone), "attendees" to stringResource(R.string.split_attendees)), officeSplit, { officeSplit = it })
         }
         SectionCard {
             InfoRow(stringResource(R.string.persons_attended), heads.toString())
             if (total != null && heads > 0) InfoRow(stringResource(R.string.share_per_head), money(total / heads), strong = true)
+            if (each != null && cash != null && total != null) {
+                InfoRow(stringResource(R.string.non_members_pay), stringResource(R.string.each_and_total, money(each), money(cash)))
+                InfoRow(stringResource(R.string.members_share), money(total - cash), strong = true)
+                Text(stringResource(R.string.non_members_cash_note), style = MaterialTheme.typography.bodySmall, color = s.info)
+            }
             if (people.any { it.selected && it.guests > 0 }) Text(stringResource(R.string.guest_heads_to_host), style = MaterialTheme.typography.bodySmall, color = s.info)
         }
         SwitchRow(stringResource(R.string.add_to_month_bill), stringResource(if (addToMonth) R.string.add_to_month_on else R.string.add_to_month_off), addToMonth) { addToMonth = it }
@@ -248,7 +265,8 @@ private fun PartyForm(f: FormData, onBack: () -> Unit, pad: androidx.compose.fou
             val list = people.filter { it.selected }.flatMap { p ->
                 listOf(mapOf("subject" to "member", "member_id" to p.memberId, "heads" to 1)) +
                     if (p.guests > 0) listOf(mapOf("subject" to "personal_guest", "member_id" to p.memberId, "heads" to p.guests)) else emptyList()
-            } + if (office > 0) listOf(mapOf("subject" to "office_guest", "member_id" to null, "heads" to office)) else emptyList()
+            } + (if (office > 0) listOf(mapOf("subject" to "office_guest", "member_id" to null, "heads" to office)) else emptyList()) +
+                walkIns.filter { it.heads > 0 }.map { mapOf("subject" to "walk_in", "member_id" to null, "heads" to it.heads, "name" to it.name.trim().ifBlank { null }) }
             action.run(success = ctx.getString(R.string.saved), after = { onBack() }) {
                 Graph.repo.partySave(mapOf(
                     "id" to e?.id, "place_id" to f.place.id, "title" to title.trim(), "amount_paisa" to total, "day" to day,
@@ -258,5 +276,28 @@ private fun PartyForm(f: FormData, onBack: () -> Unit, pad: androidx.compose.fou
             }
         }
         Text(stringResource(R.string.party_bills_note), style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.Normal)
+    }
+}
+
+/** A non-member at a party (a visitor, a driver): pays their share on the spot. */
+private data class WalkInInput(val name: String = "", val heads: Int = 1)
+
+@Composable
+private fun WalkInsEditor(rows: androidx.compose.runtime.snapshots.SnapshotStateList<WalkInInput>) {
+    SectionCard(stringResource(R.string.non_members)) {
+        SmallLabel(stringResource(R.string.non_members_hint))
+        rows.forEachIndexed { i, w ->
+            if (i > 0) androidx.compose.material3.HorizontalDivider()
+            TextInput(w.name, { rows[i] = w.copy(name = it.take(60)) }, stringResource(R.string.non_member_name),
+                modifier = Modifier.testTag("walkin_name_$i"))
+            androidx.compose.foundation.layout.Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                SmallLabel(stringResource(R.string.how_many_came), modifier = Modifier.weight(1f))
+                com.kodawick.messwise.ui.common.Stepper(w.heads, { if (it <= 0) rows.removeAt(i) else rows[i] = w.copy(heads = it) }, max = 100)
+            }
+        }
+        androidx.compose.material3.TextButton(onClick = { rows.add(WalkInInput()) }, modifier = Modifier.testTag("add_walkin")) {
+            androidx.compose.material3.Icon(androidx.compose.material.icons.Icons.Filled.PersonAdd, null)
+            Text("  " + stringResource(R.string.add_non_member))
+        }
     }
 }

@@ -10,6 +10,7 @@
     <string name="add">Add</string>
     <string name="add_expense">Add expense</string>
     <string name="add_meal">Meal bill</string>
+    <string name="add_non_member">Add a non-member</string>
     <string name="add_party">Party</string>
     <string name="add_payer">Someone else also paid</string>
     <string name="add_tea">Add Tea</string>
@@ -66,6 +67,7 @@
     <string name="camera">Camera</string>
     <string name="cancel">Cancel</string>
     <string name="cannot_mark_own">Another manager must check your own payment.</string>
+    <string name="cash_from_non_members">less %1$s cash from non-members</string>
     <string name="cat_bills">Bills and mobile</string>
     <string name="cat_education">Education</string>
     <string name="cat_family">Family</string>
@@ -101,6 +103,7 @@
     <string name="delete_account_sub">Removes your login and private book</string>
     <string name="delete_expense">Delete this expense?</string>
     <string name="delete_expense_body">It is removed from your private book.</string>
+    <string name="each_and_total">%1$s each · %2$s</string>
     <string name="edit">Edit</string>
     <string name="edit_expense">Edit expense</string>
     <string name="edit_meal">Edit meal bill</string>
@@ -141,6 +144,7 @@
     <string name="how_bills_work">How the bills work</string>
     <string name="how_guests_work">Guests: a personal guest is charged to their host; a guest of the whole office is divided among everyone.</string>
     <string name="how_kitchen_works">Kitchen Bill, only for those who share the kitchen: supplies like oil and flour are divided by days present, skipping leave. Meal bills go only to those who ate.</string>
+    <string name="how_many_came">How many came</string>
     <string name="how_paid_works">Paying: send the amount with a slip. Only the canteen manager marks a bill paid. Pending bills are visible to everyone.</string>
     <string name="how_tea_works">Tea Bill, for everyone on tea: there is no fixed price. At month end, rate per cup = that month\'s total tea expenses ÷ all cups made, so it can be 30, 40 or 50 rupees. Your tea bill = your cups × that rate.</string>
     <string name="how_worked_out">How it is worked out</string>
@@ -233,6 +237,7 @@
     <string name="member_no_app_hint">This person does not use the app. Managers enter their tea and payments.</string>
     <string name="members">Members</string>
     <string name="members_count">%1$s members</string>
+    <string name="members_share">Members’ bills share</string>
     <string name="mess_charges_at">Mess at %1$s</string>
     <string name="method">Paid by</string>
     <string name="mine">Mine</string>
@@ -287,6 +292,14 @@
     <string name="no_tea_members">No one is on the Tea Bill.</string>
     <string name="no_tea_this_month">No tea recorded this month</string>
     <string name="nobody_pending">Everyone has paid</string>
+    <string name="non_member">Non-member</string>
+    <string name="non_member_name">Name (optional)</string>
+    <string name="non_members">Non-members</string>
+    <string name="non_members_cash_note">Their cash goes to whoever paid the party bill and comes off what the group owes them.</string>
+    <string name="non_members_hint">Visitors who are not members pay their share on the spot. If someone will not pay, add them as a member’s guest instead.</string>
+    <string name="non_members_line">Non-members (paid on the spot, %2$s each): %1$s</string>
+    <string name="non_members_paid">Paid on the spot by non-members</string>
+    <string name="non_members_pay">Non-members pay on the spot</string>
     <string name="not_settled">Not settled</string>
     <string name="note">Note</string>
     <string name="note_optional">Note (optional)</string>
@@ -317,6 +330,7 @@
     <string name="others_bill_hint">This is someone else’s bill. You see its total and what is paid; the details are theirs.</string>
     <string name="others_lines_hint">Other people show only the parts of their bill you share with them.</string>
     <string name="over_budget">%1$s over your budget of %2$s</string>
+    <string name="owner_no_money_hint">Entries, bills and payments are for the Canteen Manager. As owner you look after members, roles and leave.</string>
     <string name="owner_note">You will be the owner and the canteen manager. You can hand the manager role to anyone later.</string>
     <string name="paid_by_x">paid by %1$s</string>
     <string name="paid_how">How did you pay?</string>

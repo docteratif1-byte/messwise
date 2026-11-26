@@ -181,6 +181,7 @@ fun EntryScreen(type: String, id: String, nav: Nav, onBack: () -> Unit) {
                     if (e.type == "party") {
                         InfoRow(stringResource(R.string.persons_attended), e.heads.toString())
                         e.perHeadPaisa?.let { InfoRow(stringResource(R.string.share_per_head), money(it)) }
+                        if (e.walkInPaisa > 0) InfoRow(stringResource(R.string.non_members_paid), money(e.walkInPaisa))
                         InfoRow(stringResource(R.string.billed_as), stringResource(if (e.addToMonth) R.string.in_month_bill else R.string.separate_party_bill))
                     }
                     if (e.note.isNotBlank()) InfoRow(stringResource(R.string.note), e.note)
@@ -188,7 +189,10 @@ fun EntryScreen(type: String, id: String, nav: Nav, onBack: () -> Unit) {
                     if (e.isVoid) e.voidReason?.let { InfoRow(stringResource(R.string.void_reason), it) }
                 }
                 SectionCard(stringResource(R.string.who_paid)) {
-                    e.payers.forEach { InfoRow(it.name, money(it.amountPaisa)) }
+                    e.payers.forEach {
+                        InfoRow(it.name, money(it.amountPaisa))
+                        if (it.receivedPaisa > 0) SmallLabel(stringResource(R.string.cash_from_non_members, money(it.receivedPaisa)))
+                    }
                     Hint(stringResource(R.string.payer_credit_hint))
                 }
                 if (e.shares.isNotEmpty()) SectionCard(stringResource(R.string.shares)) {
@@ -197,6 +201,11 @@ fun EntryScreen(type: String, id: String, nav: Nav, onBack: () -> Unit) {
                     if (pg.isNotEmpty()) Hint(stringResource(R.string.personal_guests_line, pg.joinToString(", ") { (it.name ?: "") + " +" + (if (e.type == "party") it.heads else it.units.toInt()) }))
                     val og = e.people.filter { it.subject == "office_guest" }.sumOf { if (e.type == "party") it.heads else it.units.toInt() }
                     if (og > 0) Hint(stringResource(R.string.office_guests_line, og))
+                    val wi = e.people.filter { it.subject == "walk_in" }
+                    val unnamed = stringResource(R.string.non_member)
+                    if (wi.isNotEmpty()) Hint(stringResource(R.string.non_members_line,
+                        wi.joinToString(", ") { (it.name ?: unnamed) + if (it.heads > 1) " ×" + it.heads else "" },
+                        money(e.walkInEachPaisa)))
                 }
                 if (e.type == "party" && e.bills.isNotEmpty()) SectionCard(stringResource(R.string.paid_pending)) {
                     e.bills.forEach { b -> BillRow(b, showName = true, onClick = { nav.navigate(Routes.bill(b.id)) }) }

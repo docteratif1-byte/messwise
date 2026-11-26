@@ -34,7 +34,11 @@ data class Member(
 }
 
 @Serializable
-data class Can(val manage: Boolean = false, val owner: Boolean = false, val soleAdmin: Boolean = false)
+data class Can(val manage: Boolean = false, val owner: Boolean = false, val soleAdmin: Boolean = false,
+               private val money: Boolean? = null, val soleManager: Boolean = false) {
+    /** Entries, bills and payments: Canteen Managers only (an owner only while also the main Canteen Manager). */
+    val handlesMoney get() = money ?: manage
+}
 
 @Serializable
 data class Manager(val id: String, val name: String = "", val role: String = "", val isMainManager: Boolean = false)
@@ -116,7 +120,7 @@ data class Dashboard(
 // ---------------------------------------------------------------- entries
 
 @Serializable
-data class Payer(val memberId: String, val name: String = "", val amountPaisa: Long = 0)
+data class Payer(val memberId: String, val name: String = "", val amountPaisa: Long = 0, val receivedPaisa: Long = 0)
 
 @Serializable
 data class ShareLine(val memberId: String, val name: String = "", val sharePaisa: Long = 0)
@@ -139,6 +143,7 @@ data class Entry(
     val createdByName: String? = null, val createdAt: String? = null, val updatedAt: String? = null,
     val payers: List<Payer> = emptyList(), val people: List<Person> = emptyList(), val shares: List<ShareLine> = emptyList(),
     val officeSplit: String? = null, val addToMonth: Boolean = false, val heads: Int = 0, val perHeadPaisa: Long? = null,
+    val walkInHeads: Int = 0, val walkInEachPaisa: Long = 0, val walkInPaisa: Long = 0,
     val bills: List<Bill> = emptyList(), val versions: List<Version> = emptyList(), val questions: List<QuestionBrief> = emptyList(),
     val canEdit: Boolean = false,
 ) {
@@ -181,7 +186,7 @@ data class Payment(
 data class MealLine(val id: String, val day: String = "", val kind: String = "", val title: String = "", val sharePaisa: Long = 0)
 
 @Serializable
-data class PaidLine(val type: String = "", val id: String, val title: String = "", val bill: String? = null, val day: String = "", val amountPaisa: Long = 0)
+data class PaidLine(val type: String = "", val id: String, val title: String = "", val bill: String? = null, val day: String = "", val amountPaisa: Long = 0, val receivedPaisa: Long = 0)
 
 @Serializable
 data class BillExtras(

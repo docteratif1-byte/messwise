@@ -10,6 +10,7 @@
     <string name="add">شامل کریں</string>
     <string name="add_expense">خرچ لکھیں</string>
     <string name="add_meal">کھانے کا بل</string>
+    <string name="add_non_member">غیر رکن شامل کریں</string>
     <string name="add_party">پارٹی</string>
     <string name="add_payer">کسی اور نے بھی ادا کیا</string>
     <string name="add_tea">چائے لکھیں</string>
@@ -66,6 +67,7 @@
     <string name="camera">کیمرہ</string>
     <string name="cancel">منسوخ</string>
     <string name="cannot_mark_own">آپ کی اپنی ادائیگی کوئی دوسرا مینیجر دیکھے گا۔</string>
+    <string name="cash_from_non_members">غیر ارکان سے %1$s نقد وصول، منہا</string>
     <string name="cat_bills">بل اور موبائل</string>
     <string name="cat_education">تعلیم</string>
     <string name="cat_family">گھر والے</string>
@@ -101,6 +103,7 @@
     <string name="delete_account_sub">آپ کا لاگ ان اور ذاتی کاپی ہٹا دیتا ہے</string>
     <string name="delete_expense">یہ خرچ حذف کریں؟</string>
     <string name="delete_expense_body">یہ آپ کی ذاتی کاپی سے ہٹ جائے گا۔</string>
+    <string name="each_and_total">فی کس %1$s · %2$s</string>
     <string name="edit">تبدیل کریں</string>
     <string name="edit_expense">خرچ بدلیں</string>
     <string name="edit_meal">کھانے کا بل تبدیل کریں</string>
@@ -141,6 +144,7 @@
     <string name="how_bills_work">بل کیسے بنتے ہیں</string>
     <string name="how_guests_work">مہمان: ذاتی مہمان کا خرچ میزبان پر؛ پورے دفتر کا مہمان سب میں تقسیم۔</string>
     <string name="how_kitchen_works">کچن کا بل، صرف کچن کے شرکاء کے لیے: تیل، آٹا جیسا سامان حاضری کے دنوں سے تقسیم، چھٹی کے بغیر۔ کھانے کے بل صرف کھانے والوں پر۔</string>
+    <string name="how_many_came">کتنے افراد آئے</string>
     <string name="how_paid_works">ادائیگی: رقم رسید کے ساتھ بھیجیں۔ بل صرف کینٹین مینیجر ادا شدہ لکھتا ہے۔ باقی بل سب کو نظر آتے ہیں۔</string>
     <string name="how_tea_works">چائے کا بل، چائے والے سب کے لیے: کوئی مقررہ قیمت نہیں۔ مہینے کے آخر میں فی کپ ریٹ = اس مہینے کا چائے کا کل خرچ ÷ کل کپ، یہ 30، 40 یا 50 روپے بھی ہو سکتا ہے۔ آپ کا بل = آپ کے کپ × وہ ریٹ۔</string>
     <string name="how_worked_out">حساب کیسے بنا</string>
@@ -233,6 +237,7 @@
     <string name="member_no_app_hint">یہ فرد ایپ استعمال نہیں کرتا۔ ان کی چائے اور ادائیگیاں مینیجر درج کرتا ہے۔</string>
     <string name="members">ممبرز</string>
     <string name="members_count">%1$s ممبرز</string>
+    <string name="members_share">ارکان کے بلوں میں</string>
     <string name="mess_charges_at">%1$s کا میس</string>
     <string name="method">ادائیگی کا طریقہ</string>
     <string name="mine">میرے</string>
@@ -287,6 +292,14 @@
     <string name="no_tea_members">چائے کے بل میں کوئی نہیں۔</string>
     <string name="no_tea_this_month">اس مہینے کوئی چائے درج نہیں</string>
     <string name="nobody_pending">سب نے ادا کر دیا</string>
+    <string name="non_member">غیر رکن</string>
+    <string name="non_member_name">نام (اختیاری)</string>
+    <string name="non_members">غیر ارکان</string>
+    <string name="non_members_cash_note">یہ نقد رقم پارٹی کا بل ادا کرنے والے کو ملتی ہے اور گروپ کے ذمے ان کی رقم سے کم ہو جاتی ہے۔</string>
+    <string name="non_members_hint">جو مہمان رکن نہیں وہ اپنا حصہ موقع پر ادا کرتے ہیں۔ اگر کوئی ادا نہ کرے تو اسے کسی رکن کا مہمان بنا دیں۔</string>
+    <string name="non_members_line">غیر ارکان (موقع پر ادا کیا، فی کس %2$s): %1$s</string>
+    <string name="non_members_paid">غیر ارکان نے موقع پر ادا کیا</string>
+    <string name="non_members_pay">غیر ارکان موقع پر ادا کریں</string>
     <string name="not_settled">غیر ادا شدہ</string>
     <string name="note">نوٹ</string>
     <string name="note_optional">نوٹ (اختیاری)</string>
@@ -317,6 +330,7 @@
     <string name="others_bill_hint">یہ کسی اور کا بل ہے۔ آپ کو کل رقم اور ادائیگی نظر آتی ہے؛ تفصیل صرف انہی کی ہے۔</string>
     <string name="others_lines_hint">دوسروں کے بل کا صرف وہ حصہ نظر آتا ہے جس میں آپ بھی شامل ہیں۔</string>
     <string name="over_budget">آپ کے %2$s کے بجٹ سے %1$s زیادہ</string>
+    <string name="owner_no_money_hint">اندراجات، بل اور ادائیگیاں کینٹین مینیجر کا کام ہیں۔ بطور مالک آپ ارکان، عہدے اور چھٹی دیکھتے ہیں۔</string>
     <string name="owner_note">آپ مالک اور کینٹین مینیجر ہوں گے۔ بعد میں مینیجر کسی کو بھی بنا سکتے ہیں۔</string>
     <string name="paid_by_x">ادا کیا %1$s نے</string>
     <string name="paid_how">کیسے ادا کیا؟</string>

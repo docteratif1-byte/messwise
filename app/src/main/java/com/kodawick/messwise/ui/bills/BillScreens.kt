@@ -201,7 +201,10 @@ fun BillScreen(billId: String, nav: Nav, onBack: () -> Unit) {
                     }
                     if (full && b.creditPaisa > 0) {
                         InfoRow(stringResource(R.string.you_paid_for_group), "− " + money(b.creditPaisa), valueColor = LocalStatus.current.good)
-                        x.paidForGroup.forEach { p -> Text("  " + fmtDate(p.day) + " · " + p.title + " — " + money(p.amountPaisa), style = MaterialTheme.typography.bodySmall) }
+                        x.paidForGroup.forEach { p ->
+                            Text("  " + fmtDate(p.day) + " · " + p.title + " — " + money(p.amountPaisa), style = MaterialTheme.typography.bodySmall)
+                            if (p.receivedPaisa > 0) Text("    " + stringResource(R.string.cash_from_non_members, money(p.receivedPaisa)), style = MaterialTheme.typography.bodySmall)
+                        }
                     }
                     HorizontalDivider()
                     InfoRow(stringResource(R.string.bill_total), money(b.totalPaisa), strong = true)
