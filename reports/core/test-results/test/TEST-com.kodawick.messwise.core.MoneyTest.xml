@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kodawick.messwise.core.MoneyTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-11-26T14:05:54.002Z" hostname="runnervm3lb7s" time="0.051">
+  <properties/>
+  <testcase name="teaExample" classname="com.kodawick.messwise.core.MoneyTest" time="0.028"/>
+  <testcase name="parses" classname="com.kodawick.messwise.core.MoneyTest" time="0.004"/>
+  <testcase name="formats" classname="com.kodawick.messwise.core.MoneyTest" time="0.001"/>
+  <testcase name="roundTripsInput" classname="com.kodawick.messwise.core.MoneyTest" time="0.017"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

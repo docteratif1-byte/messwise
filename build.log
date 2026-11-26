@@ -1,0 +1,173 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:compileKotlin FROM-CACHE
+> Task :core:compileJava NO-SOURCE
+> Task :core:processResources NO-SOURCE
+> Task :core:classes UP-TO-DATE
+> Task :core:jar
+> Task :core:compileTestKotlin FROM-CACHE
+> Task :core:compileTestJava NO-SOURCE
+> Task :core:processTestResources NO-SOURCE
+> Task :core:testClasses UP-TO-DATE
+> Task :core:test FROM-CACHE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:generateDebugBuildConfig FROM-CACHE
+> Task :app:generateDebugResValues FROM-CACHE
+> Task :app:checkDebugAarMetadata
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources FROM-CACHE
+> Task :app:mergeDebugResources FROM-CACHE
+> Task :app:packageDebugResources FROM-CACHE
+> Task :app:parseDebugLocalResources FROM-CACHE
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug FROM-CACHE
+> Task :app:processDebugMainManifest FROM-CACHE
+> Task :app:processDebugManifest FROM-CACHE
+> Task :app:processDebugManifestForPackage FROM-CACHE
+> Task :app:processDebugResources FROM-CACHE
+> Task :app:compileDebugKotlin FROM-CACHE
+> Task :app:javaPreCompileDebug FROM-CACHE
+> Task :app:compileDebugJavaWithJavac FROM-CACHE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest FROM-CACHE
+> Task :app:processDebugJavaRes
+> Task :app:prePreviewBuild UP-TO-DATE
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:mergePreviewJniLibFolders
+> Task :app:compileDebugUnitTestKotlin FROM-CACHE
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes
+> Task :app:testDebugUnitTest FROM-CACHE
+> Task :app:mergePreviewNativeLibs
+> Task :app:buildKotlinToolingMetadata
+> Task :app:generatePreviewBuildConfig FROM-CACHE
+> Task :app:generatePreviewResValues FROM-CACHE
+
+> Task :app:stripPreviewDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
+
+> Task :app:checkPreviewAarMetadata
+> Task :app:mapPreviewSourceSetPaths
+> Task :app:extractPreviewNativeSymbolTables FROM-CACHE
+> Task :app:mergePreviewNativeDebugMetadata NO-SOURCE
+> Task :app:generatePreviewResources FROM-CACHE
+> Task :app:checkPreviewDuplicateClasses
+> Task :app:mergePreviewResources FROM-CACHE
+> Task :app:packagePreviewResources FROM-CACHE
+> Task :app:parsePreviewLocalResources FROM-CACHE
+> Task :app:createPreviewCompatibleScreenManifests
+> Task :app:extractDeepLinksPreview FROM-CACHE
+> Task :app:processPreviewMainManifest FROM-CACHE
+> Task :app:processPreviewManifest FROM-CACHE
+> Task :app:processPreviewManifestForPackage FROM-CACHE
+> Task :app:processPreviewResources FROM-CACHE
+> Task :app:compilePreviewKotlin FROM-CACHE
+> Task :app:javaPreCompilePreview FROM-CACHE
+> Task :app:compilePreviewJavaWithJavac FROM-CACHE
+> Task :app:mergePreviewArtProfile
+> Task :app:extractProguardFiles
+> Task :app:expandPreviewArtProfileWildcards FROM-CACHE
+> Task :app:mergePreviewGeneratedProguardFiles
+> Task :app:processPreviewJavaRes
+> Task :app:mergePreviewStartupProfile
+> Task :app:mergePreviewShaders
+> Task :app:compilePreviewShaders NO-SOURCE
+> Task :app:generatePreviewAssets UP-TO-DATE
+> Task :app:mergePreviewAssets
+> Task :app:compressPreviewAssets FROM-CACHE
+> Task :app:extractPreviewVersionControlInfo
+> Task :app:collectPreviewDependencies
+> Task :app:sdkPreviewDependencyData
+> Task :app:validateSigningPreview
+> Task :app:writePreviewAppMetadata
+> Task :app:writePreviewSigningConfigVersions
+> Task :app:mergePreviewJavaResource
+> Task :app:minifyPreviewWithR8 FROM-CACHE
+> Task :app:compilePreviewArtProfile FROM-CACHE
+> Task :app:convertShrunkResourcesToBinaryPreview FROM-CACHE
+> Task :app:optimizePreviewResources FROM-CACHE
+> Task :app:packagePreview
+> Task :app:createPreviewApkListingFileRedirect
+> Task :app:assemblePreview
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1795728982453.json
+
+BUILD SUCCESSFUL in 18s
+73 actionable tasks: 32 executed, 41 from cache
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:mergeReleaseShaders
+> Task :app:compileReleaseShaders NO-SOURCE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets
+> Task :core:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :core:compileKotlin UP-TO-DATE
+> Task :core:compileJava NO-SOURCE
+> Task :core:processResources NO-SOURCE
+> Task :core:classes UP-TO-DATE
+> Task :core:jar UP-TO-DATE
+> Task :app:buildKotlinToolingMetadata UP-TO-DATE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateReleaseBuildConfig FROM-CACHE
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:generateReleaseResValues FROM-CACHE
+> Task :app:checkReleaseAarMetadata
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:generateReleaseResources FROM-CACHE
+> Task :app:mergeReleaseResources FROM-CACHE
+> Task :app:packageReleaseResources FROM-CACHE
+> Task :app:parseReleaseLocalResources FROM-CACHE
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:extractDeepLinksRelease FROM-CACHE
+> Task :app:processReleaseMainManifest FROM-CACHE
+> Task :app:processReleaseManifest FROM-CACHE
+> Task :app:processReleaseManifestForPackage FROM-CACHE
+> Task :app:processReleaseResources FROM-CACHE
+> Task :app:compileReleaseKotlin FROM-CACHE
+> Task :app:javaPreCompileRelease FROM-CACHE
+> Task :app:compileReleaseJavaWithJavac FROM-CACHE
+> Task :app:extractProguardFiles UP-TO-DATE
+> Task :app:mergeReleaseGeneratedProguardFiles
+> Task :app:mergeReleaseArtProfile
+> Task :app:processReleaseJavaRes
+> Task :app:expandReleaseArtProfileWildcards FROM-CACHE
+> Task :app:mergeReleaseStartupProfile
+> Task :app:mergeReleaseJniLibFolders
+> Task :app:writeReleaseAppMetadata
+> Task :app:mergeReleaseNativeLibs
+> Task :app:collectReleaseDependencies
+> Task :app:configureReleaseDependencies
+> Task :app:parseReleaseIntegrityConfig FROM-CACHE
+
+> Task :app:stripReleaseDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
+
+> Task :app:compressReleaseAssets FROM-CACHE
+> Task :app:extractReleaseNativeSymbolTables FROM-CACHE
+> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :app:sdkReleaseDependencyData
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:mergeReleaseJavaResource
+> Task :app:minifyReleaseWithR8 FROM-CACHE
+> Task :app:buildReleasePreBundle
+> Task :app:compileReleaseArtProfile FROM-CACHE
+> Task :app:convertShrunkResourcesToBinaryRelease FROM-CACHE
+> Task :app:optimizeReleaseResources FROM-CACHE
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+> Task :app:assembleRelease
+> Task :app:packageReleaseBundle
+> Task :app:signReleaseBundle
+> Task :app:produceReleaseBundleIdeListingFile
+> Task :app:createReleaseBundleListingFileRedirect
+> Task :app:bundleRelease
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_3-1795728998804.json
+
+BUILD SUCCESSFUL in 13s
+53 actionable tasks: 27 executed, 22 from cache, 4 up-to-date

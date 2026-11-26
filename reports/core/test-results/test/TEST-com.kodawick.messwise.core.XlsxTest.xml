@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.kodawick.messwise.core.XlsxTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-11-26T14:05:54.055Z" hostname="runnervm3lb7s" time="0.09">
+  <properties/>
+  <testcase name="writesAWorkbook" classname="com.kodawick.messwise.core.XlsxTest" time="0.09"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
