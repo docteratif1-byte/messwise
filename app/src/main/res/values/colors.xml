@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Haldi and Baingan: turmeric and aubergine. -->
+    <color name="aubergine">#FF4A2545</color>
+    <color name="turmeric">#FFF2A900</color>
+    <color name="window_background">#FFFFF8EC</color>
+    <color name="launcher_background">#FF4A2545</color>
+</resources>

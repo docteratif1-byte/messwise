@@ -1,0 +1,73 @@
+name: Messwise CI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: messwise-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  android:
+    name: Tests, APK and AAB
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Text resources are complete (English and Urdu)
+        run: python3 tools/gen_strings.py
+      - name: Core tests, unit tests, test APK
+        shell: bash
+        run: |
+          set -o pipefail
+          ./gradlew --no-daemon --warning-mode none :core:test :app:testDebugUnitTest assemblePreview --continue 2>&1 | tee build.log
+      - name: Release bundle and release APK
+        shell: bash
+        run: |
+          set -o pipefail
+          ./gradlew --no-daemon --warning-mode none bundleRelease assembleRelease 2>&1 | tee -a build.log
+      - name: Build errors
+        if: failure()
+        shell: bash
+        run: |
+          { echo '## Build errors'; echo '```'; grep -E '^e: |error:|What went wrong|Could not|Unresolved|FAILED|AAPT' build.log | grep -v '^> Task' | head -150; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+      - name: Publish build to messwise-builds
+        if: always()
+        shell: bash
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          out="$RUNNER_TEMP/out"; mkdir -p "$out/tools" "$out/reports"
+          cp build.log "$out/" 2>/dev/null || true
+          grep -E '^e: |^w: .*(deprecated|unused)|error:|What went wrong|FAILED' build.log | head -400 > "$out/errors.txt" 2>/dev/null || true
+          cp app/build/outputs/apk/preview/*.apk "$out/Messwise-test.apk" 2>/dev/null || true
+          cp app/build/outputs/bundle/release/*.aab "$out/Messwise-release-unsigned.aab" 2>/dev/null || true
+          cp app/build/outputs/apk/release/*.apk "$out/Messwise-release-unsigned.apk" 2>/dev/null || true
+          mkdir -p "$out/reports/core" "$out/reports/app"
+          cp -r core/build/test-results "$out/reports/core/" 2>/dev/null || true
+          cp -r app/build/test-results "$out/reports/app/" 2>/dev/null || true
+          cp app/build/outputs/mapping/release/mapping.txt "$out/reports/" 2>/dev/null || true
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          "$BT/aapt2" dump permissions app/build/outputs/apk/release/*.apk > "$out/reports/permissions.txt" 2>&1 || true
+          "$BT/aapt2" dump badging app/build/outputs/apk/release/*.apk > "$out/reports/badging.txt" 2>&1 || true
+          cp "$BT/lib/apksigner.jar" "$out/tools/" 2>/dev/null || true
+          echo "$BT" > "$out/tools/BUILD_TOOLS"
+          curl -sSL -o "$out/tools/bundletool.jar" https://github.com/google/bundletool/releases/download/1.18.1/bundletool-all-1.18.1.jar || true
+          cd "$out"
+          ls *.apk *.aab > /dev/null 2>&1 && sha256sum *.apk *.aab > SHA256SUMS || true
+          echo "$GITHUB_SHA" > SOURCE_COMMIT
+          git init -q -b messwise-builds
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "Build #$GITHUB_RUN_NUMBER from ${GITHUB_SHA::7}"
+          git push -f "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:messwise-builds
