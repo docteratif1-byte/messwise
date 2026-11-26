@@ -1,4 +1,4 @@
-# Messwise — build, signing and release
+# MessWise — build, signing and release
 
 ## Build outputs
 Every push to `main` runs `.github/workflows/ci.yml` and publishes to the `messwise-builds` branch:

@@ -1,4 +1,4 @@
-# Messwise
+# MessWise
 
 Shared tea and kitchen expenses for hostels, offices and shared flats. Android app by **KodaWick**.
 

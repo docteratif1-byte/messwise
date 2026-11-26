@@ -53,11 +53,11 @@ class PdfWriter(private val title: String, private val subtitle: String, private
         c.drawRect(0f, 0f, W.toFloat(), 64f, band)
         c.drawCircle(M + 14, 32f, 14f, Paint(Paint.ANTI_ALIAS_FLAG).apply { color = green })
         c.drawText("M", M + 7.5f, 38f, text(16f, true, Color.rgb(42, 29, 20)))
-        c.drawText("Messwise", M + 36, 30f, text(16f, true, Color.WHITE))
+        c.drawText("MessWise", M + 36, 30f, text(16f, true, Color.WHITE))
         c.drawText(placeName, M + 36, 46f, text(9f, false, Color.rgb(241, 220, 236)))
         c.drawText(title, W - M - text(13f, true).measureText(title), 30f, text(13f, true, Color.WHITE))
         c.drawText(subtitle, W - M - text(9f).measureText(subtitle), 46f, text(9f, false, Color.rgb(241, 220, 236)))
-        val foot = "Messwise by KodaWick · $generated · Page $pageNo"
+        val foot = "MessWise by KodaWick · $generated · Page $pageNo"
         c.drawText(foot, M, H - 22f, text(8f, false, gray))
         y = 92f
     }
@@ -148,7 +148,7 @@ object Share {
         return File(dir, name).apply { writeBytes(bytes) }
     }
 
-    fun safeName(s: String) = s.replace(Regex("[^A-Za-z0-9 _.-]"), "").trim().replace(' ', '_').ifEmpty { "Messwise" }.take(60)
+    fun safeName(s: String) = s.replace(Regex("[^A-Za-z0-9 _.-]"), "").trim().replace(' ', '_').ifEmpty { "MessWise" }.take(60)
 
     /** Opens the share sheet (WhatsApp, Gmail, Drive...) with the file attached. */
     fun send(ctx: Context, name: String, bytes: ByteArray, mime: String) {
@@ -164,13 +164,13 @@ object Share {
             val values = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, name)
                 put(MediaStore.MediaColumns.MIME_TYPE, mime)
-                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/Messwise")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/MessWise")
             }
             val uri = ctx.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)!!
             ctx.contentResolver.openOutputStream(uri)!!.use { it.write(bytes) }
             true
         } else {
-            val dir = File(ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "Messwise").apply { mkdirs() }
+            val dir = File(ctx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), "MessWise").apply { mkdirs() }
             File(dir, name).writeBytes(bytes)
             true
         }

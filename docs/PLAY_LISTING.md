@@ -1,6 +1,6 @@
-# Google Play listing — Messwise
+# Google Play listing — MessWise
 
-- **App name (30):** `Messwise: Mess & Tea Bills` (26). Name checked free on Google Play, 26 Nov 2026.
+- **App name (30):** `MessWise: Mess & Tea Bills` (26). Name checked free on Google Play, 26 Nov 2026.
 - **Package:** com.kodawick.messwise · **Category:** Finance · **Contact email:** kodawick4+messwise@gmail.com
 - **Website:** https://messwise.onrender.com · **Privacy policy:** https://messwise.onrender.com/privacy.html
 - **Account deletion URL:** https://messwise.onrender.com/delete-account.html
@@ -8,9 +8,9 @@
 **Short description (80):** Tea and kitchen bills for hostels and offices, split fairly by cups and days
 
 **Full description:**
-Messwise keeps the shared tea and kitchen account of a hostel, office or shared flat open to everyone.
+MessWise keeps the shared tea and kitchen account of a hostel, office or shared flat open to everyone.
 
-• Two clear monthly bills. The Tea Bill is for everyone who takes tea: rate per cup = total tea expenses ÷ cups made, and each bill = cups × rate. The Kitchen Bill is only for those who share the kitchen: oil, flour and gas are divided by days present, and nobody pays for days on leave.
+• Two clear monthly bills. The Tea Bill is for everyone who takes tea. There is no fixed price: at month end the rate per cup = that month's total tea expenses ÷ all cups made, and each bill = cups × that rate. The Kitchen Bill is only for those who share the kitchen: oil, flour and gas are divided by days present, and nobody pays for days on leave.
 • Meals split only among those who ate, by plates. Personal guests are charged to their host; guests of the whole office are divided among everyone.
 • Parties and grand lunches or dinners: total, persons attended, share per head, and paid or pending for each person.
 • One tap "Add Tea" on the home screen. Your private marks let you check the manager's tea count at month end.
@@ -20,7 +20,7 @@ Messwise keeps the shared tea and kitchen account of a hostel, office or shared 
 • A private expense book that only you can see, with a monthly budget.
 • English and اردو. Fingerprint app lock.
 
-Messwise only records expenses and payments. Members pay the manager outside the app; Messwise never holds or moves money.
+MessWise only records expenses and payments. Members pay the manager outside the app; MessWise never holds or moves money.
 
 Made by KodaWick.
 

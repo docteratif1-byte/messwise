@@ -345,7 +345,7 @@ fun SettingsScreen(activity: com.kodawick.messwise.MainActivity, nav: Nav, onBac
                 LinkRow(stringResource(R.string.privacy_policy), onClick = { openUrl(ctx, PRIVACY_URL) })
             }
             SectionCard {
-                LinkRow(stringResource(R.string.help_support), SUPPORT_EMAIL, onClick = { emailSupport(ctx, "Messwise help") })
+                LinkRow(stringResource(R.string.help_support), SUPPORT_EMAIL, onClick = { emailSupport(ctx, "MessWise help") })
                 LinkRow(stringResource(R.string.sign_out), onClick = { askOut = true })
                 LinkRow(stringResource(R.string.delete_account), stringResource(R.string.delete_account_sub), onClick = { askDelete = true })
             }
@@ -397,7 +397,7 @@ fun AboutScreen(onBack: () -> Unit) {
             }
             SectionCard {
                 LinkRow(stringResource(R.string.privacy_policy), onClick = { openUrl(ctx, PRIVACY_URL) })
-                LinkRow(stringResource(R.string.help_support), SUPPORT_EMAIL, leading = { Icon(Icons.Filled.Storefront, null) }, onClick = { emailSupport(ctx, "Messwise") })
+                LinkRow(stringResource(R.string.help_support), SUPPORT_EMAIL, leading = { Icon(Icons.Filled.Storefront, null) }, onClick = { emailSupport(ctx, "MessWise") })
                 LinkRow(stringResource(R.string.open_source_licences), stringResource(R.string.font_licence), onClick = {})
             }
             KodaWickCredit()

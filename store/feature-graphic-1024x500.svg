@@ -7,13 +7,12 @@
     <path fill="#F2A900" d="M34,51 L70,51 L67,70 Q66,76 60,76 L44,76 Q38,76 37,70 Z"/>
     <path fill="none" stroke="#F2A900" stroke-width="4.5" d="M68,55 Q79,55 79,62 Q79,69 66,69"/>
     <path fill="#F2A900" d="M29,79 L79,79 Q79,84 74,84 L34,84 Q29,84 29,79 Z"/>
-    <path fill="#FFFFFF" d="M43,34 L63,34 L63,38.5 L43,38.5 Z"/>
-    <circle fill="#FFFFFF" cx="53" cy="27.5" r="3.2"/>
-    <circle fill="#FFFFFF" cx="53" cy="45" r="3.2"/>
+    <g fill="none" stroke="#FFFFFF" stroke-width="3.6" stroke-linecap="round">
+      <path d="M44,45 Q40.5,40.5 44,36 Q47.5,31.5 44,27"/><path d="M52,46 Q48.5,41 52,36 Q55.5,31 52,25"/><path d="M60,45 Q56.5,40.5 60,36 Q63.5,31.5 60,27"/>
+    </g>
   </g>
-  <text x="400" y="200" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="76" fill="#FFFFFF">Messwise</text>
-  <text x="402" y="262" font-family="DejaVu Sans, sans-serif" font-size="32" fill="#F1DCEC">Tea and kitchen bills, split fairly</text>
-  <rect x="402" y="300" rx="22" width="250" height="56" fill="#F2A900"/>
-  <text x="527" y="338" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="26" fill="#2A1D14">Rs 25 per cup</text>
-  <text x="402" y="410" font-family="DejaVu Sans, sans-serif" font-size="24" fill="#D9B8D4">Hostels · Offices · Shared flats   by KodaWick</text>
+  <text x="400" y="215" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="80" fill="#FFFFFF">MessWise</text>
+  <text x="402" y="280" font-family="DejaVu Sans, sans-serif" font-size="32" fill="#F1DCEC">Tea and kitchen bills, shared fairly</text>
+  <text x="402" y="330" font-family="DejaVu Sans, sans-serif" font-size="25" fill="#D9B8D4">For hostels, offices and shared flats</text>
+  <text x="402" y="400" font-family="DejaVu Sans, sans-serif" font-weight="700" font-size="22" fill="#F2A900">by KodaWick</text>
 </svg>

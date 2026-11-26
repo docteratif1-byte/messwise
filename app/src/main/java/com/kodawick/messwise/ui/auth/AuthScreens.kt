@@ -187,7 +187,7 @@ fun LoginScreen(activity: MainActivity, onSignedIn: (needsName: Boolean) -> Unit
                 }
             }
             Spacer(Modifier.height(24.dp))
-            TextButton(onClick = { emailSupport(ctx, "Messwise help") }) { Text(stringResource(R.string.help_support)) }
+            TextButton(onClick = { emailSupport(ctx, "MessWise help") }) { Text(stringResource(R.string.help_support)) }
             KodaWickCredit()
         }
     }

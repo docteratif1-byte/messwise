@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Messwise mark: a turmeric tea cup whose steam forms a divide sign (shared bills). -->
+<!-- Messwise mark: a turmeric tea cup with rising steam. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp" android:height="108dp"
     android:viewportWidth="108" android:viewportHeight="108">
     <path android:fillColor="#FFFFFFFF" android:pathData="M34,51 L70,51 L67,70 Q66,76 60,76 L44,76 Q38,76 37,70 Z" />
     <path android:fillColor="#00000000" android:strokeColor="#FFFFFFFF" android:strokeWidth="4.5" android:pathData="M68,55 Q79,55 79,62 Q79,69 66,69" />
     <path android:fillColor="#FFFFFFFF" android:pathData="M29,79 L79,79 Q79,84 74,84 L34,84 Q29,84 29,79 Z" />
-    <path android:fillColor="#FFFFFFFF" android:pathData="M43,34 L63,34 L63,38.5 L43,38.5 Z" />
-    <path android:fillColor="#FFFFFFFF" android:pathData="M53,27.5 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
-    <path android:fillColor="#FFFFFFFF" android:pathData="M53,45 m-3.2,0 a3.2,3.2 0 1,0 6.4,0 a3.2,3.2 0 1,0 -6.4,0" />
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFFFF" android:strokeWidth="3.6" android:strokeLineCap="round" android:pathData="M44,45 Q40.5,40.5 44,36 Q47.5,31.5 44,27" />
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFFFF" android:strokeWidth="3.6" android:strokeLineCap="round" android:pathData="M52,46 Q48.5,41 52,36 Q55.5,31 52,25" />
+    <path android:fillColor="#00000000" android:strokeColor="#FFFFFFFF" android:strokeWidth="3.6" android:strokeLineCap="round" android:pathData="M60,45 Q56.5,40.5 60,36 Q63.5,31.5 60,27" />
 </vector>
