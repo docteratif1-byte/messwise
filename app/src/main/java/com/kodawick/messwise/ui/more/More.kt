@@ -77,8 +77,8 @@ import com.kodawick.messwise.ui.common.rememberLoad
 import com.kodawick.messwise.ui.entries.SwitchRow
 import com.kodawick.messwise.ui.openPlace
 
-const val PRIVACY_URL = "https://messwise.onrender.com/privacy.html"
-const val DELETE_URL = "https://messwise.onrender.com/delete-account.html"
+const val PRIVACY_URL = "https://messwise-r9qh.onrender.com/privacy.html"
+const val DELETE_URL = "https://messwise-r9qh.onrender.com/delete-account.html"
 
 fun openUrl(ctx: android.content.Context, url: String) {
     try { ctx.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url))) } catch (_: Exception) {}

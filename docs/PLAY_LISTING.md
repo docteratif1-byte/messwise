@@ -2,8 +2,8 @@
 
 - **App name (30):** `MessWise: Mess & Tea Bills` (26). Name checked free on Google Play, 26 Nov 2026.
 - **Package:** com.kodawick.messwise · **Category:** Finance · **Contact email:** kodawick4+messwise@gmail.com
-- **Website:** https://messwise.onrender.com · **Privacy policy:** https://messwise.onrender.com/privacy.html
-- **Account deletion URL:** https://messwise.onrender.com/delete-account.html
+- **Website:** https://messwise-r9qh.onrender.com · **Privacy policy:** https://messwise-r9qh.onrender.com/privacy.html
+- **Account deletion URL:** https://messwise-r9qh.onrender.com/delete-account.html
 
 **Short description (80):** Tea and kitchen bills for hostels and offices, split fairly by cups and days
 
