@@ -6,6 +6,7 @@ import com.kodawick.messwise.core.XlsxWriter
 import com.kodawick.messwise.data.model.Entry
 import com.kodawick.messwise.data.model.MonthRow
 import com.kodawick.messwise.data.model.ReportData
+import com.kodawick.messwise.data.model.Sees
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.time.ZoneId
@@ -50,6 +51,13 @@ object Reports {
     }
 
     private fun members(r: ReportData): List<MonthRow> = r.month.rows
+
+    /** Managers see everything; a member's report holds only what they are part of (server rule). */
+    private fun full(r: ReportData) = r.month.sees.everyone
+    private fun mine(r: ReportData) = r.month.rows.filter { it.memberId == r.meMemberId }
+
+    /** The reports this viewer may make: tea reports for tea drinkers, kitchen reports for kitchen members. */
+    fun visible(sees: Sees): List<ReportKind> = ReportKind.entries.filter { if (it.name.startsWith("TEA")) sees.tea else sees.kitchen }
 
     // ---------------------------------------------------------------- PDF
 
@@ -108,11 +116,15 @@ object Reports {
                 row("Total tea bills", rs(members(r).sumOf { it.teaPaisa }), true)
             }
             ReportKind.KITCHEN_EXPENSES -> {
-                box {
+                if (full(r)) box {
                     row("Shared kitchen supplies", rs(k.sharedPaisa))
                     row("Meal bills", rs(k.mealsPaisa))
                     if (m.partiesPaisa > 0) row("Parties added to this month", rs(m.partiesPaisa))
                     row("Total kitchen expenses", rs(k.sharedPaisa + k.mealsPaisa + m.partiesPaisa), true)
+                } else box {
+                    row("Shared kitchen supplies", rs(k.sharedPaisa))
+                    row("Meals you were part of", rs(r.meals.sumOf { it.amountPaisa }))
+                    if (r.parties.isNotEmpty()) row("Parties you were part of", rs(r.parties.sumOf { it.amountPaisa }))
                 }
                 heading("Kitchen purchases (oil, flour, gas...)")
                 table(listOf("Date", "Item", "Paid by", "Amount"), listOf(1.2f, 2.2f, 1.8f, 1.1f),
@@ -133,19 +145,28 @@ object Reports {
                     row("Shared kitchen supplies", rs(k.sharedPaisa))
                     row("Days present (all kitchen members)", k.memberDays.toString())
                     row("Cost per person per day", rate(k.perDay)?.let { rs(it) } ?: "—", true)
-                    row("Meal bills (split among those who ate)", rs(k.mealsPaisa))
+                    if (full(r)) row("Meal bills (split among those who ate)", rs(k.mealsPaisa))
                 }
                 para("Shared supplies are divided by days present: people on leave are not charged for those days, and day visitors are not on the Kitchen Bill. Meal bills go only to those who ate, by plates; personal guests go to their host and office guests to everyone present.")
                 heading("Kitchen bill on all")
-                table(listOf("Name", "Days", "Supplies", "Meals", "Parties", "Total"), listOf(2f, 0.7f, 1.1f, 1.1f, 1f, 1.1f),
-                    members(r).filter { it.kitchenPaisa > 0 || it.partyPaisa > 0 || it.kitchenDays != null }.map {
-                        listOf(it.name, it.kitchenDays?.toString() ?: "—", rs(it.kitchenSharedPaisa), rs(it.mealsPaisa), rs(it.partyPaisa), rs(it.kitchenPaisa + it.partyPaisa))
-                    }, right = setOf(1, 2, 3, 4, 5))
-                row("Total", rs(members(r).sumOf { it.kitchenPaisa + it.partyPaisa }), true)
+                if (full(r)) {
+                    table(listOf("Name", "Days", "Supplies", "Meals", "Parties", "Total"), listOf(2f, 0.7f, 1.1f, 1.1f, 1f, 1.1f),
+                        members(r).filter { it.kitchenPaisa > 0 || it.partyPaisa > 0 || it.kitchenDays != null }.map {
+                            listOf(it.name, it.kitchenDays?.toString() ?: "—", rs(it.kitchenSharedPaisa), rs(it.mealsPaisa), rs(it.partyPaisa), rs(it.kitchenPaisa + it.partyPaisa))
+                        }, right = setOf(1, 2, 3, 4, 5))
+                    row("Total", rs(members(r).sumOf { it.kitchenPaisa + it.partyPaisa }), true)
+                } else {
+                    // Shared supplies are everyone's; meals and parties only show on each person's own bill.
+                    table(listOf("Name", "Days", "Supplies"), listOf(2.6f, 0.8f, 1.3f),
+                        members(r).filter { it.kitchenDays != null || it.kitchenSharedPaisa > 0 }.map {
+                            listOf(it.name, it.kitchenDays?.toString() ?: "—", rs(it.kitchenSharedPaisa))
+                        }, right = setOf(1, 2))
+                    row("Total supplies", rs(members(r).sumOf { it.kitchenSharedPaisa }), true)
+                }
             }
             ReportKind.KITCHEN_EACH -> {
                 para("One section per person: their kitchen share, meals, what they paid for the group, and their full month bill.")
-                members(r).forEach { p ->
+                (if (full(r)) members(r) else mine(r)).forEach { p ->
                     heading(p.name)
                     box {
                         p.kitchenDays?.let { row("Kitchen supplies: $it days × " + (rate(k.perDay)?.let { r2 -> rs(r2) } ?: "—"), rs(p.kitchenSharedPaisa)) }
@@ -195,19 +216,22 @@ object Reports {
                 Sheet("Kitchen purchases", listOf("Date", "Item", "Paid by", "Amount (Rs)"),
                     r.kitchenPurchases.map { listOf(date(it.day), it.item ?: "", payers(it), num(it.amountPaisa)) } +
                         listOf(listOf("", "Total", "", num(r.kitchenPurchases.sumOf { it.amountPaisa })))),
-                Sheet("Meals", listOf("Date", "Meal", "Plates", "Paid by", "Amount (Rs)"),
+                Sheet(if (full(r)) "Meals" else "My meals", listOf("Date", "Meal", "Plates", "Paid by", "Amount (Rs)"),
                     r.meals.map { e -> listOf(date(e.day), mealName(e), e.people.sumOf { it.units }, payers(e), num(e.amountPaisa)) } +
                         listOf(listOf("", "Total", "", "", num(r.meals.sumOf { it.amountPaisa })))),
-                Sheet("Parties", listOf("Date", "Title", "Heads", "Per head (Rs)", "Total (Rs)", "Billed"),
+                Sheet(if (full(r)) "Parties" else "My parties", listOf("Date", "Title", "Heads", "Per head (Rs)", "Total (Rs)", "Billed"),
                     r.parties.map { listOf(date(it.day), it.title ?: "", it.heads, it.perHeadPaisa?.let { p -> num(p) } ?: "", num(it.amountPaisa), if (it.addToMonth) "In month" else "Separate") }),
             )
-            ReportKind.KITCHEN_ALL -> listOf(Sheet("Kitchen bill on all", listOf("Name", "Days", "Supplies (Rs)", "Meals (Rs)", "Parties (Rs)", "Total (Rs)"),
+            ReportKind.KITCHEN_ALL -> if (!full(r)) listOf(Sheet("Kitchen bill on all", listOf("Name", "Days", "Supplies (Rs)"),
+                rows.filter { it.kitchenDays != null || it.kitchenSharedPaisa > 0 }.map { listOf(it.name, it.kitchenDays ?: "", num(it.kitchenSharedPaisa)) } +
+                    listOf(listOf("Total", k.memberDays, num(k.sharedPaisa)), listOf("Per day", "", rate(k.perDay)?.let { num(it) } ?: ""))))
+            else listOf(Sheet("Kitchen bill on all", listOf("Name", "Days", "Supplies (Rs)", "Meals (Rs)", "Parties (Rs)", "Total (Rs)"),
                 rows.map { listOf(it.name, it.kitchenDays ?: "", num(it.kitchenSharedPaisa), num(it.mealsPaisa), num(it.partyPaisa), num(it.kitchenPaisa + it.partyPaisa)) } +
                     listOf(listOf("Total", k.memberDays, num(k.sharedPaisa), num(k.mealsPaisa), num(m.partiesPaisa), num(rows.sumOf { it.kitchenPaisa + it.partyPaisa })),
                         listOf("Per day", "", rate(k.perDay)?.let { num(it) } ?: "", "", "", ""))))
             ReportKind.KITCHEN_EACH -> listOf(Sheet("Bill per person", listOf("Name", "Kitchen days", "Supplies (Rs)", "Meals", "Meals (Rs)", "Parties (Rs)",
                 "Cups", "Tea (Rs)", "Paid for group (Rs)", "Month bill (Rs)"),
-                rows.map { listOf(it.name, it.kitchenDays ?: "", num(it.kitchenSharedPaisa), it.mealsCount, num(it.mealsPaisa), num(it.partyPaisa),
+                (if (full(r)) rows else mine(r)).map { listOf(it.name, it.kitchenDays ?: "", num(it.kitchenSharedPaisa), it.mealsCount, num(it.mealsPaisa), num(it.partyPaisa),
                     it.cups + it.guestCups, num(it.teaPaisa), num(it.creditPaisa), num(it.totalPaisa)) }))
         }
     }
@@ -217,7 +241,7 @@ object Reports {
     /** All six reports in one workbook. */
     fun allXlsx(r: ReportData): ByteArray {
         val seen = mutableSetOf<String>()
-        val sheets = ReportKind.entries.flatMap { sheet(it, r) }.filter { seen.add(it.name) }
+        val sheets = visible(r.month.sees).flatMap { sheet(it, r) }.filter { seen.add(it.name) }
         return XlsxWriter.toBytes(sheets)
     }
 }

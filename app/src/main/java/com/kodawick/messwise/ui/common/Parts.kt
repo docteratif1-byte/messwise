@@ -136,7 +136,8 @@ fun mealLabel(kind: String?) = when (kind) {
 /** "Nov 2026 bill" or "Party: Grand Dinner". */
 @Composable
 fun billTitle(b: Bill): String =
-    if (b.kind == "party") stringResource(R.string.party_bill_title, b.partyTitle ?: b.detail.title ?: "")
+    if (b.kind == "party") (b.partyTitle ?: b.detail.title)?.takeIf { it.isNotBlank() }?.let { stringResource(R.string.party_bill_title, it) }
+        ?: stringResource(R.string.party_bill_plain)
     else stringResource(R.string.month_bill_title, fmtMonth(b.month))
 
 /** Owe in red, get back in green, always with the words. */

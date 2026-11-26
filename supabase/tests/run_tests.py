@@ -219,8 +219,46 @@ def main():
     pb = {b["member_name"]: b for b in party["bills"]}
     check("party bills", pb["Saad"]["total_paisa"] == rs(3500) and pb["Kamran"]["total_paisa"] == rs(2000 - 13500) and pb["Riaz"]["status"] == "pending")
 
+    print("== who sees what")
+    def items(uid, today=None):
+        return call(uid, "mw_entries", P, "2026-11-01", today=today)["items"]
+    owner_items, saad_items, usman_items = items(K), items(S), items(U)   # Saad: tea only, ate the lunch; Usman: resident, not at the lunch
+    is_kitchen = lambda i: i["type"] == "purchase" and i["bill"] == "kitchen"
+    check("owner sees every entry", any(is_kitchen(i) for i in owner_items) and any(i["id"] == lunch["id"] for i in owner_items))
+    check("tea-only member sees no kitchen purchases", not any(is_kitchen(i) for i in saad_items) and any(i.get("bill") == "tea" for i in saad_items))
+    check("those who ate see the lunch", any(i["id"] == lunch["id"] for i in saad_items))
+    check("others do not see the lunch", not any(i["id"] == lunch["id"] for i in usman_items))
+    expect_err("lunch hidden from non-eaters", "NOT_FOUND", call, U, "mw_entry_get", "meal", lunch["id"])
+    expect_err("kitchen purchase hidden from tea-only", "NOT_FOUND", call, S, "mw_entry_get", "purchase", next(i for i in owner_items if is_kitchen(i))["id"])
+    check("payer sees the lunch", call(R, "mw_entry_get", "meal", lunch["id"])["id"] == lunch["id"])
+    check("kitchen member sees kitchen purchases", any(is_kitchen(i) for i in usman_items))
+    check("party guests see the party", any(i["id"] == party["id"] for i in usman_items) and any(i["id"] == party["id"] for i in saad_items))
+    expect_err("no questions on hidden entries", "NOT_FOUND", call, U, "mw_question_ask", {"place_id": P, "entity": "meal", "entity_id": lunch["id"], "text": "What was this?"})
+    sm = call(S, "mw_month", P, "2026-11-01")
+    check("tea-only member gets no kitchen figures", "kitchen" not in sm and "parties_paisa" not in sm and sm["sees"] == {"tea": True, "kitchen": False, "meals": False, "everyone": False}, json.dumps(sm.get("sees")))
+    srows = {r["name"]: r for r in sm["rows"]}
+    check("own line in full", srows["Saad"]["meals_paisa"] == rs(600), json.dumps(srows["Saad"]))
+    check("others' lines: tea and total only", "meals_paisa" not in srows["Riaz"] and "kitchen_shared_paisa" not in srows["Riaz"]
+          and srows["Riaz"]["tea_paisa"] == rs(800) and "total_paisa" in srows["Riaz"], json.dumps(srows["Riaz"]))
+    um = call(U, "mw_month", P, "2026-11-01")
+    check("kitchen member sees the Kitchen Bill, not group meals", um["kitchen"]["member_days"] == 110 and "meals_paisa" not in um["kitchen"], json.dumps(um.get("kitchen")))
+    check("manager sees all", call(K, "mw_month", P, "2026-11-01")["sees"]["everyone"] is True)
+    rep = call(S, "mw_report", P, "2026-11-01")
+    check("tea-only report: no kitchen expenses", rep["kitchen_purchases"] == [] and len(rep["tea_purchases"]) == 3 and [m["id"] for m in rep["meals"]] == [lunch["id"]],
+          json.dumps({k: len(rep[k]) for k in ("tea_purchases", "kitchen_purchases", "meals", "parties")}))
+    urep = call(U, "mw_report", P, "2026-11-01")
+    check("kitchen member report: supplies, not others' meals", len(urep["kitchen_purchases"]) == 4 and lunch["id"] not in [m["id"] for m in urep["meals"]])
+    check("meals today counts only own", call(S, "mw_dashboard", P, today="2026-11-15")["meals_today"] == 1 and call(U, "mw_dashboard", P, today="2026-11-15")["meals_today"] == 0)
+    kp = next(i for i in owner_items if is_kitchen(i))
+    call(K, "mw_purchase_save", {"id": kp["id"], "place_id": P, "bill": "kitchen", "item": kp["item"], "amount_paisa": kp["amount_paisa"], "bought_on": kp["day"],
+                                 "note": "Checked receipt", "reason": "Note added"})
+    edited = lambda uid: [n for n in call(uid, "mw_notifications", None) if n["kind"] == "entry_edited" and (n.get("data") or {}).get("entry_id") == kp["id"]]
+    check("kitchen edit told to kitchen members only", len(edited(U)) == 1 and len(edited(S)) == 0)
+    sact = call(S, "mw_activity", P, None)
+    check("history hides kitchen lines from tea-only", not any(a["entity"] == "purchase" and a["entity_id"] == kp["id"] for a in sact))
+
     print("== November, live")
-    mon = call(R, "mw_month", P, "2026-11-01")
+    mon = call(K, "mw_month", P, "2026-11-01")
     tea = mon["tea"]
     check("tea totals", tea["total_paisa"] == rs(5000) and tea["cups_total"] == 200 and float(tea["rate"]) == 25.0, json.dumps(tea))
     check("kitchen per day", mon["kitchen"]["member_days"] == 110 and float(mon["kitchen"]["per_day"]) == 100.0, json.dumps(mon["kitchen"]))

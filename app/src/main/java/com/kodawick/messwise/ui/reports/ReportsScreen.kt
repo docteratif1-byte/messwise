@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.kodawick.messwise.R
+import com.kodawick.messwise.ui.common.rememberLoad
 import com.kodawick.messwise.data.Graph
 import com.kodawick.messwise.data.model.ReportData
 import com.kodawick.messwise.export.ReportKind
@@ -83,7 +84,10 @@ fun ReportsScreen(placeId: String, onBack: () -> Unit) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 com.kodawick.messwise.ui.common.ChoiceRow(listOf(false to stringResource(R.string.share_file), true to stringResource(R.string.save_downloads)), save, { save = it })
             }
-            ReportKind.entries.forEach { k ->
+            // Only the reports for bills this person is on (managers get all six).
+            val mv = rememberLoad("month", placeId, month, cached = { Graph.repo.monthCached(placeId, month) }) { Graph.repo.month(placeId, month) }
+            val sees = mv.data?.sees ?: Graph.repo.dashboardCached(placeId)?.month?.sees
+            (sees?.let { Reports.visible(it) } ?: emptyList()).forEach { k ->
                 val (title, desc) = LABELS.getValue(k)
                 SectionCard {
                     Text(stringResource(title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)

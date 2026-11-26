@@ -25,7 +25,7 @@
     <string name="advance_held">مینیجر کے پاس پیشگی: %1$s</string>
     <string name="advance_hint">کوئی بل نہیں چنا: یہ پیشگی رہے گی اور اگلے بل سے کٹ جائے گی۔</string>
     <string name="all">سب</string>
-    <string name="all_reports_excel">تمام چھ رپورٹس ایک ایکسل فائل میں</string>
+    <string name="all_reports_excel">یہ تمام رپورٹیں ایک Excel فائل میں</string>
     <string name="amount">رقم</string>
     <string name="amount_paid">ادا کی گئی رقم</string>
     <string name="answer">جواب</string>
@@ -314,6 +314,8 @@
     <string name="open_bill">بل کھولیں</string>
     <string name="open_month_sheet">مہینے کی شیٹ: چائے اور کچن کا بل</string>
     <string name="open_source_licences">فونٹس اور لائسنس</string>
+    <string name="others_bill_hint">یہ کسی اور کا بل ہے۔ آپ کو کل رقم اور ادائیگی نظر آتی ہے؛ تفصیل صرف انہی کی ہے۔</string>
+    <string name="others_lines_hint">دوسروں کے بل کا صرف وہ حصہ نظر آتا ہے جس میں آپ بھی شامل ہیں۔</string>
     <string name="over_budget">آپ کے %2$s کے بجٹ سے %1$s زیادہ</string>
     <string name="owner_note">آپ مالک اور کینٹین مینیجر ہوں گے۔ بعد میں مینیجر کسی کو بھی بنا سکتے ہیں۔</string>
     <string name="paid_by_x">ادا کیا %1$s نے</string>
@@ -322,6 +324,7 @@
     <string name="parties">پارٹیاں</string>
     <string name="parties_in_month">مہینے کے بل میں پارٹیاں</string>
     <string name="party">پارٹی</string>
+    <string name="party_bill_plain">پارٹی کا بل</string>
     <string name="party_bill_title">پارٹی: %1$s</string>
     <string name="party_bills_note">پارٹی کے بل ہر فرد کے لیے ادا یا باقی کے ساتھ بل ٹیب میں نظر آئیں گے۔</string>
     <string name="party_share">پارٹی کا حصہ</string>
@@ -399,7 +402,7 @@
     <string name="rep_tea_expenses">چائے کا کل خرچ</string>
     <string name="rep_tea_expenses_d">چائے کی ہر خریداری، کل، کل کپ اور فی کپ ریٹ</string>
     <string name="reports">رپورٹس</string>
-    <string name="reports_hint">رپورٹس آپ کے فون پر بنتی ہیں۔ گروپ کا ہر فرد انہیں ڈاؤن لوڈ کر سکتا ہے۔</string>
+    <string name="reports_hint">رپورٹیں آپ کے فون پر بنتی ہیں۔ ہر شخص کو صرف وہ بل ملتے ہیں جن میں وہ شامل ہے؛ مینیجر کو سب کچھ۔</string>
     <string name="request_sent_body">%1$s کو درخواست بھیج دی گئی۔ مینیجر کی منظوری کا انتظار ہے۔</string>
     <string name="request_sent_hint">مینیجر کے منظور کرتے ہی یہ اسکرین خود جگہ کھول دے گی۔ آپ واپس بھی جا سکتے ہیں، یہ آپ کی فہرست میں آ جائے گی۔</string>
     <string name="request_sent_title">درخواست بھیج دی گئی</string>

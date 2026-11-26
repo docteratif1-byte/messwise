@@ -82,16 +82,22 @@ data class Bill(
     val status: String = "pending", val detail: BillDetail = BillDetail(), val updatedAt: String? = null,
 )
 
+/** Which parts of a month the viewer may see (server rule since 27 Nov 2026). An older server sends none: all true. */
+@Serializable
+data class Sees(val tea: Boolean = true, val kitchen: Boolean = true, val meals: Boolean = true, val everyone: Boolean = true)
+
 @Serializable
 data class MonthView(
     val month: String = "", val upto: String? = null, val status: String = "open", val tea: TeaSummary = TeaSummary(),
     val kitchen: KitchenSummary = KitchenSummary(), val partiesPaisa: Long = 0, val rows: List<MonthRow> = emptyList(),
     val warnings: List<String> = emptyList(), val billedAt: String? = null, val reopenReason: String? = null,
     val canBill: Boolean = false, val canReopen: Boolean = false, val bills: List<Bill> = emptyList(),
+    val sees: Sees = Sees(),
 )
 
 @Serializable
-data class MonthBrief(val month: String = "", val status: String = "open", val tea: TeaSummary = TeaSummary(), val kitchen: KitchenSummary = KitchenSummary(), val warnings: List<String> = emptyList())
+data class MonthBrief(val month: String = "", val status: String = "open", val tea: TeaSummary = TeaSummary(), val kitchen: KitchenSummary = KitchenSummary(),
+    val warnings: List<String> = emptyList(), val sees: Sees = Sees())
 
 @Serializable
 data class TeaToday(val official: Int = 0, val myOfficial: Int = 0, val myMarks: Int = 0)
@@ -236,7 +242,7 @@ data class TeaCount(val day: String = "", val subject: String = "member", val me
 
 @Serializable
 data class ReportData(
-    val place: ReportPlace = ReportPlace(), val generatedAt: String? = null, val generatedBy: String = "", val month: MonthView = MonthView(),
+    val place: ReportPlace = ReportPlace(), val generatedAt: String? = null, val generatedBy: String = "", val meMemberId: String? = null, val month: MonthView = MonthView(),
     val teaPurchases: List<Entry> = emptyList(), val kitchenPurchases: List<Entry> = emptyList(), val meals: List<Entry> = emptyList(),
     val parties: List<Entry> = emptyList(), val teaDays: List<TeaCount> = emptyList(),
 )

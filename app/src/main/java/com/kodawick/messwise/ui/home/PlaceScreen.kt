@@ -174,13 +174,16 @@ private fun HomeTab(d: Dashboard, nav: Nav, pad: androidx.compose.foundation.lay
         // This month so far.
         val m = d.month
         SectionCard(stringResource(R.string.this_month_so_far, fmtMonth(m.month)), onClick = { nav.navigate(Routes.month(placeId, m.month)) }) {
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                BigNumber(stringResource(R.string.tea_rate_per_cup), m.tea.rate?.let { money(Math.round(it * 100)) } ?: "—", Modifier.weight(1f))
-                BigNumber(stringResource(R.string.cups_made), m.tea.cupsTotal.toString(), Modifier.weight(1f))
+            // Only the bills this person is on (managers see all).
+            if (m.sees.tea) {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    BigNumber(stringResource(R.string.tea_rate_per_cup), m.tea.rate?.let { money(Math.round(it * 100)) } ?: "—", Modifier.weight(1f))
+                    BigNumber(stringResource(R.string.cups_made), m.tea.cupsTotal.toString(), Modifier.weight(1f))
+                }
+                InfoRow(stringResource(R.string.tea_spent), money(m.tea.totalPaisa))
             }
-            InfoRow(stringResource(R.string.tea_spent), money(m.tea.totalPaisa))
-            InfoRow(stringResource(R.string.kitchen_spent), money(m.kitchen.sharedPaisa))
-            InfoRow(stringResource(R.string.meals_spent), money(m.kitchen.mealsPaisa))
+            if (m.sees.kitchen) InfoRow(stringResource(R.string.kitchen_spent), money(m.kitchen.sharedPaisa))
+            if (m.sees.meals) InfoRow(stringResource(R.string.meals_spent), money(m.kitchen.mealsPaisa))
             d.mySoFar?.let { r ->
                 Spacer(Modifier.height(4.dp))
                 SmallLabel(stringResource(R.string.my_share_so_far))

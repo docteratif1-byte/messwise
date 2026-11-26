@@ -98,7 +98,7 @@ fun MonthScreen(placeId: String, month: String, nav: Nav, onBack: () -> Unit) {
                 m.reopenReason?.let { Hint(stringResource(R.string.reopened_because, it)) }
                 m.warnings.forEach { Text("• " + warningText(it), color = LocalStatus.current.part, style = MaterialTheme.typography.bodySmall) }
 
-                SectionCard(stringResource(R.string.tea_bill)) {
+                if (m.sees.tea) SectionCard(stringResource(R.string.tea_bill)) {
                     Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                         BigNumber(stringResource(R.string.tea_spent), money(m.tea.totalPaisa), Modifier.weight(1f))
                         BigNumber(stringResource(R.string.cups_made), m.tea.cupsTotal.toString(), Modifier.weight(1f))
@@ -111,15 +111,16 @@ fun MonthScreen(placeId: String, month: String, nav: Nav, onBack: () -> Unit) {
                         m.tea.officeSharePaisa?.let { InfoRow(stringResource(R.string.office_cups_each, m.tea.teaMembers), money(it)) }
                     }
                 }
-                SectionCard(stringResource(R.string.kitchen_bill)) {
+                if (m.sees.kitchen) SectionCard(stringResource(R.string.kitchen_bill)) {
                     InfoRow(stringResource(R.string.kitchen_shared), money(m.kitchen.sharedPaisa))
                     InfoRow(stringResource(R.string.member_days), m.kitchen.memberDays.toString())
                     InfoRow(stringResource(R.string.per_day), rate(m.kitchen.perDay)?.let { money(it) } ?: "—")
-                    InfoRow(stringResource(R.string.meals_spent), money(m.kitchen.mealsPaisa))
-                    if (m.partiesPaisa > 0) InfoRow(stringResource(R.string.parties_in_month), money(m.partiesPaisa))
+                    if (m.sees.meals) InfoRow(stringResource(R.string.meals_spent), money(m.kitchen.mealsPaisa))
+                    if (m.sees.meals && m.partiesPaisa > 0) InfoRow(stringResource(R.string.parties_in_month), money(m.partiesPaisa))
                     Hint(stringResource(R.string.kitchen_formula))
                 }
                 SectionCard(stringResource(R.string.everyone)) {
+                    if (!m.sees.everyone) Hint(stringResource(R.string.others_lines_hint))
                     m.rows.forEachIndexed { i, r ->
                         if (i > 0) HorizontalDivider()
                         val bill = m.bills.firstOrNull { it.memberId == r.memberId && it.kind == "month" }
@@ -183,7 +184,10 @@ fun BillScreen(billId: String, nav: Nav, onBack: () -> Unit) {
                 }
                 SectionCard(stringResource(R.string.how_worked_out)) {
                     val d = b.detail
-                    if (b.kind == "month") {
+                    // Someone else's bill (not a manager): only the total and what is settled.
+                    val full = x.isMine || x.canMark
+                    if (!full) Hint(stringResource(R.string.others_bill_hint))
+                    else if (b.kind == "month") {
                         InfoRow(stringResource(R.string.tea_line, (d.cups ?: 0) + (d.guestCups ?: 0), rate(d.teaRate)?.let { money(it) } ?: "—"), money(b.teaPaisa))
                         if ((d.guestCups ?: 0) > 0) Hint(stringResource(R.string.includes_guest_cups, d.guestCups ?: 0))
                         if (d.kitchenDays != null) InfoRow(stringResource(R.string.kitchen_line, d.kitchenDays, rate(d.perDay)?.let { money(it) } ?: "—"), money(b.kitchenSharedPaisa))
@@ -195,7 +199,7 @@ fun BillScreen(billId: String, nav: Nav, onBack: () -> Unit) {
                         InfoRow(stringResource(R.string.party_share), money(b.partyPaisa))
                         b.partyDay?.let { InfoRow(stringResource(R.string.day), fmtDate(it)) }
                     }
-                    if (b.creditPaisa > 0) {
+                    if (full && b.creditPaisa > 0) {
                         InfoRow(stringResource(R.string.you_paid_for_group), "− " + money(b.creditPaisa), valueColor = LocalStatus.current.good)
                         x.paidForGroup.forEach { p -> Text("  " + fmtDate(p.day) + " · " + p.title + " — " + money(p.amountPaisa), style = MaterialTheme.typography.bodySmall) }
                     }

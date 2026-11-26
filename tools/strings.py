@@ -305,6 +305,7 @@ S = {
     "bill": ("Bill", "بل"),
     "month_bill_title": ("%1$s bill", "%1$s کا بل"),
     "party_bill_title": ("Party: %1$s", "پارٹی: %1$s"),
+    "party_bill_plain": ("Party bill", "پارٹی کا بل"),
     "bill_total_x": ("Bill %1$s", "بل %1$s"),
     "you_owe": ("You owe %1$s", "آپ کے ذمے %1$s"),
     "you_get_back": ("You get back %1$s", "آپ کو واپس ملیں گے %1$s"),
@@ -332,6 +333,8 @@ S = {
     "parties_in_month": ("Parties in the month bill", "مہینے کے بل میں پارٹیاں"),
     "kitchen_formula": ("Shared supplies ÷ days present. People on leave and day visitors are not charged for those days.", "مشترکہ سامان ÷ حاضری کے دن۔ چھٹی والے اور دن کے آنے والے ان دنوں کا نہیں دیتے۔"),
     "everyone": ("Everyone", "سب"),
+    "others_lines_hint": ("Other people show only the parts of their bill you share with them.", "دوسروں کے بل کا صرف وہ حصہ نظر آتا ہے جس میں آپ بھی شامل ہیں۔"),
+    "others_bill_hint": ("This is someone else’s bill. You see its total and what is paid; the details are theirs.", "یہ کسی اور کا بل ہے۔ آپ کو کل رقم اور ادائیگی نظر آتی ہے؛ تفصیل صرف انہی کی ہے۔"),
     "row_tea": ("Tea %1$d cups %2$s", "چائے %1$d کپ %2$s"),
     "row_kitchen": ("Kitchen %1$d days %2$s", "کچن %1$d دن %2$s"),
     "row_meals": ("Meals %1$d %2$s", "کھانے %1$d %2$s"),
@@ -496,8 +499,8 @@ S = {
     "save_downloads": ("Save to Downloads", "ڈاؤن لوڈز میں محفوظ کریں"),
     "saved_to_downloads": ("Saved to Downloads/MessWise", "Downloads/MessWise میں محفوظ ہو گیا"),
     "could_not_save": ("Could not save the file", "فائل محفوظ نہیں ہو سکی"),
-    "all_reports_excel": ("All six reports in one Excel file", "تمام چھ رپورٹس ایک ایکسل فائل میں"),
-    "reports_hint": ("Reports are made on your phone. Everyone in the group can download them.", "رپورٹس آپ کے فون پر بنتی ہیں۔ گروپ کا ہر فرد انہیں ڈاؤن لوڈ کر سکتا ہے۔"),
+    "all_reports_excel": ("All these reports in one Excel file", "یہ تمام رپورٹیں ایک Excel فائل میں"),
+    "reports_hint": ("Reports are made on your phone. Each person gets only the bills they are on; managers get everything.", "رپورٹیں آپ کے فون پر بنتی ہیں۔ ہر شخص کو صرف وہ بل ملتے ہیں جن میں وہ شامل ہے؛ مینیجر کو سب کچھ۔"),
 
     # ---------------------------------------------------------------- more
     "my_questions": ("My questions", "میرے سوالات"),

@@ -25,7 +25,7 @@
     <string name="advance_held">Advance with manager: %1$s</string>
     <string name="advance_hint">No bill chosen: this is kept as an advance and taken off your next bill.</string>
     <string name="all">All</string>
-    <string name="all_reports_excel">All six reports in one Excel file</string>
+    <string name="all_reports_excel">All these reports in one Excel file</string>
     <string name="amount">Amount</string>
     <string name="amount_paid">Amount paid</string>
     <string name="answer">Answer</string>
@@ -314,6 +314,8 @@
     <string name="open_bill">Open bill</string>
     <string name="open_month_sheet">Month sheet: Tea Bill and Kitchen Bill</string>
     <string name="open_source_licences">Fonts and licences</string>
+    <string name="others_bill_hint">This is someone else’s bill. You see its total and what is paid; the details are theirs.</string>
+    <string name="others_lines_hint">Other people show only the parts of their bill you share with them.</string>
     <string name="over_budget">%1$s over your budget of %2$s</string>
     <string name="owner_note">You will be the owner and the canteen manager. You can hand the manager role to anyone later.</string>
     <string name="paid_by_x">paid by %1$s</string>
@@ -322,6 +324,7 @@
     <string name="parties">Parties</string>
     <string name="parties_in_month">Parties in the month bill</string>
     <string name="party">Party</string>
+    <string name="party_bill_plain">Party bill</string>
     <string name="party_bill_title">Party: %1$s</string>
     <string name="party_bills_note">Party bills appear in the Bills tab with paid or pending for each person.</string>
     <string name="party_share">Party share</string>
@@ -399,7 +402,7 @@
     <string name="rep_tea_expenses">Total Tea Expenses</string>
     <string name="rep_tea_expenses_d">Every tea purchase, the total, cups made and the rate per cup</string>
     <string name="reports">Reports</string>
-    <string name="reports_hint">Reports are made on your phone. Everyone in the group can download them.</string>
+    <string name="reports_hint">Reports are made on your phone. Each person gets only the bills they are on; managers get everything.</string>
     <string name="request_sent_body">Request sent to %1$s. Waiting for the manager to approve it.</string>
     <string name="request_sent_hint">This screen opens the place by itself when the manager approves. You can also go back: it will show in your list.</string>
     <string name="request_sent_title">Request sent</string>
