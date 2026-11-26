@@ -44,8 +44,9 @@ class MainActivity : AppCompatActivity() {
         intent ?: return null
         intent.getStringExtra(EXTRA_ROUTE)?.let { return it }
         val data = intent.data ?: return null
-        val code = data.pathSegments.lastOrNull()?.takeIf { data.host == "join" || data.pathSegments.contains("join") }
-            ?: data.getQueryParameter("code")
+        // https://messwise-r9qh.onrender.com/join?code=ABC123 (invite links and QR codes) or messwise://join/ABC123 (older QR codes)
+        val code = data.getQueryParameter("code")
+            ?: data.pathSegments.lastOrNull()?.takeIf { data.host == "join" || data.pathSegments.dropLast(1).lastOrNull() == "join" }
         return code?.let { "join?code=$it" }
     }
 

@@ -40,10 +40,10 @@ object Notify {
     }
 
     fun schedule(ctx: Context) {
-        val req = PeriodicWorkRequestBuilder<NotifyWorker>(1, TimeUnit.HOURS)
+        val req = PeriodicWorkRequestBuilder<NotifyWorker>(15, TimeUnit.MINUTES)
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
             .build()
-        WorkManager.getInstance(ctx).enqueueUniquePeriodicWork(WORK, ExistingPeriodicWorkPolicy.KEEP, req)
+        WorkManager.getInstance(ctx).enqueueUniquePeriodicWork(WORK, ExistingPeriodicWorkPolicy.UPDATE, req)
     }
 
     fun cancel(ctx: Context) = WorkManager.getInstance(ctx).cancelUniqueWork(WORK)

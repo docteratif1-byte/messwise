@@ -1,0 +1,23 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="style.css"><title>Join on MessWise</title>
+<style>.code{font:700 40px/1.2 ui-monospace,monospace;letter-spacing:3px;text-align:center;color:#4A2545;margin:8px 0}.btn{display:block;text-align:center;padding:14px;border-radius:24px;font-weight:700;text-decoration:none;margin:10px 0}.go{background:#F2A900;color:#2A1D14}.play{border:1px solid #B7A797;color:#4A2545}.ur{direction:rtl;text-align:right;font-family:'Jameel Noori Nastaleeq','Noto Nastaliq Urdu',serif;font-size:1.15em;line-height:2}</style></head>
+<body><header><div class="w"><div class="mark">M</div><div><h1>MessWise</h1><p>Shared tea and kitchen bills, worked out fairly</p></div></div></header><main>
+<h2>You are invited to join on MessWise</h2>
+<div class="card">
+  <p>Your join code:</p>
+  <div class="code" id="code">——</div>
+  <a class="btn go" id="open" href="#">Open in MessWise</a>
+  <a class="btn play" id="play" href="https://play.google.com/store/apps/details?id=com.kodawick.messwise">Get MessWise on Google Play</a>
+  <p>If the app does not open: install it, sign in with Google, tap <strong>Join with a code</strong> and type the code above. The manager approves you, then the place opens by itself.</p>
+  <p class="ur">ایپ نہ کھلے تو اسے انسٹال کریں، گوگل سے سائن اِن کریں، «کوڈ سے شامل ہوں» دبائیں اور اوپر والا کوڈ لکھیں۔ مینیجر کے منظور کرتے ہی جگہ خود کھل جائے گی۔</p>
+</div>
+</main><footer>MessWise by KodaWick · <a href="mailto:kodawick4+messwise@gmail.com">kodawick4+messwise@gmail.com</a> · <a href="/privacy.html">Privacy</a></footer>
+<script>
+  var c = (new URLSearchParams(location.search).get('code') || '').toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6);
+  if (c.length === 6) {
+    document.getElementById('code').textContent = c.slice(0, 3) + '-' + c.slice(3);
+    var play = 'https://play.google.com/store/apps/details?id=com.kodawick.messwise';
+    document.getElementById('open').href = 'intent://join/' + c + '#Intent;scheme=messwise;package=com.kodawick.messwise;S.browser_fallback_url=' + encodeURIComponent(play) + ';end';
+  } else {
+    document.getElementById('open').style.display = 'none';
+  }
+</script></body></html>

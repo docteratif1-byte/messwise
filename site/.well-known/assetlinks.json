@@ -1,0 +1,24 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kodawick.messwise",
+      "sha256_cert_fingerprints": [
+        "CA:07:41:8D:ED:AE:CE:5A:DA:B2:47:AC:CD:4B:89:21:35:F8:35:38:D3:99:F1:B1:CF:4D:2E:64:DE:3A:12:84",
+        "D1:0C:AB:2A:E0:24:C8:3F:A6:AA:5C:2C:4B:CF:07:A9:93:2A:20:AF:90:03:AA:48:5F:04:6C:A7:8F:B5:6B:67",
+        "C3:C4:53:97:F1:B9:D1:A4:BC:99:8C:9C:87:B2:8E:89:C7:D7:1B:0D:2F:41:3F:85:CA:18:04:9B:E2:B0:6A:65"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.kodawick.messwise.test",
+      "sha256_cert_fingerprints": [
+        "69:DC:B1:80:4F:6F:31:37:7B:89:9F:89:89:BB:F0:68:25:6D:93:54:CB:5C:7B:E2:8C:8F:3B:22:21:AA:7C:5E"
+      ]
+    }
+  }
+]

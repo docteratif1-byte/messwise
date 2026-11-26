@@ -44,6 +44,7 @@
     <string name="back">واپس</string>
     <string name="back_from_leave">چھٹی سے واپس</string>
     <string name="back_on">واپسی کی تاریخ</string>
+    <string name="back_to_places">میری جگہوں پر واپس</string>
     <string name="bill">بل</string>
     <string name="bill_left">بل پر باقی</string>
     <string name="bill_paid_when_marked">آپ کا بل تب ادا شدہ دکھے گا جب کینٹین مینیجر اسے نشان لگائے۔</string>
@@ -163,6 +164,7 @@
     <string name="join">شامل ہوں</string>
     <string name="join_body">مینیجر کا 6 حرفی کوڈ لکھیں یا ان کا QR کوڈ اسکین کریں۔</string>
     <string name="join_code">شمولیت کوڈ</string>
+    <string name="join_code_wrong">6 حرفی کوڈ لکھیں، مثلاً ABC-123</string>
     <string name="join_place">کوڈ سے شامل ہوں</string>
     <string name="join_requests">شمولیت کی درخواستیں</string>
     <string name="joined_on">شمولیت</string>
@@ -365,6 +367,7 @@
     <string name="purchase">خریداری</string>
     <string name="qa_login">ای میل سے سائن ان (ٹیسٹنگ)</string>
     <string name="qr_code">QR کوڈ</string>
+    <string name="qr_not_invite">یہ MessWise کی دعوت کا QR کوڈ نہیں</string>
     <string name="question_sent">سوال مینیجر کو بھیج دیا</string>
     <string name="questions">سوالات</string>
     <string name="reason">وجہ</string>
@@ -397,7 +400,8 @@
     <string name="rep_tea_expenses_d">چائے کی ہر خریداری، کل، کل کپ اور فی کپ ریٹ</string>
     <string name="reports">رپورٹس</string>
     <string name="reports_hint">رپورٹس آپ کے فون پر بنتی ہیں۔ گروپ کا ہر فرد انہیں ڈاؤن لوڈ کر سکتا ہے۔</string>
-    <string name="request_sent_body">%1$s کا مینیجر آپ کو منظور کرے گا۔ آپ کو اطلاع ملے گی۔</string>
+    <string name="request_sent_body">%1$s کو درخواست بھیج دی گئی۔ مینیجر کی منظوری کا انتظار ہے۔</string>
+    <string name="request_sent_hint">مینیجر کے منظور کرتے ہی یہ اسکرین خود جگہ کھول دے گی۔ آپ واپس بھی جا سکتے ہیں، یہ آپ کی فہرست میں آ جائے گی۔</string>
     <string name="request_sent_title">درخواست بھیج دی گئی</string>
     <string name="request_waiting">مینیجر کی منظوری کا انتظار</string>
     <string name="retry">دوبارہ کوشش کریں</string>
@@ -424,6 +428,7 @@
     <string name="saved">محفوظ ہو گیا</string>
     <string name="saved_to_downloads">Downloads/MessWise میں محفوظ ہو گیا</string>
     <string name="scan_qr">QR اسکین</string>
+    <string name="scanner_not_ready">QR اسکینر تیار ہو رہا ہے۔ ایک منٹ بعد دوبارہ کوشش کریں یا کوڈ لکھیں۔</string>
     <string name="select_all">سب چنیں</string>
     <string name="select_none">صاف کریں</string>
     <string name="send">بھیجیں</string>
@@ -444,7 +449,7 @@
     <string name="setup_title">آپ کا نام</string>
     <string name="share">شیئر</string>
     <string name="share_file">شیئر کریں</string>
-    <string name="share_join_text">MessWise پر %1$s میں شامل ہوں اور چائے اور کچن کا حساب دیکھیں۔ کوڈ: %2$s\nایپ: %3$s</string>
+    <string name="share_join_text">MessWise پر %1$s میں شامل ہوں اور چائے اور کچن کا حساب دیکھیں۔ کوڈ: %2$s\nکھولیں: %3$s</string>
     <string name="share_my_tally">میرے چائے کے نشان شیئر کریں</string>
     <string name="share_my_tally_hint">مینیجر اس مہینے کے آپ کے ذاتی نشان اپنی گنتی کے ساتھ دیکھے گا۔</string>
     <string name="share_per_head">فی کس حصہ</string>

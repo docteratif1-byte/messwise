@@ -45,7 +45,15 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <!-- Invite QR codes and links: messwise://join/CODE -->
+            <!-- Invite QR codes and links: https://messwise-r9qh.onrender.com/join?code=CODE (opens the app straight away once
+                 Android has checked the site's assetlinks.json; otherwise the web page has an Open button). -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="messwise-r9qh.onrender.com" android:path="/join" />
+            </intent-filter>
+            <!-- Older invite QR codes and the web page's Open button: messwise://join/CODE -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -73,5 +81,9 @@
                 android:name="autoStoreLocales"
                 android:value="true" />
         </service>
+        <!-- Google Play services downloads the QR scanner with the app, so Scan QR works the first time. -->
+        <meta-data
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
+            android:value="barcode_ui" />
     </application>
 </manifest>

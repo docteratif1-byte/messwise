@@ -44,6 +44,7 @@
     <string name="back">Back</string>
     <string name="back_from_leave">Back from leave</string>
     <string name="back_on">Back on</string>
+    <string name="back_to_places">Back to my places</string>
     <string name="bill">Bill</string>
     <string name="bill_left">Left on the bill</string>
     <string name="bill_paid_when_marked">Your bill shows paid only when the canteen manager marks it.</string>
@@ -163,6 +164,7 @@
     <string name="join">Join</string>
     <string name="join_body">Type the 6-letter code from your manager, or scan their QR code.</string>
     <string name="join_code">Join code</string>
+    <string name="join_code_wrong">Type the 6-letter code, for example ABC-123</string>
     <string name="join_place">Join with a code</string>
     <string name="join_requests">Join requests</string>
     <string name="joined_on">Joined</string>
@@ -365,6 +367,7 @@
     <string name="purchase">Purchase</string>
     <string name="qa_login">Sign in with email (testing)</string>
     <string name="qr_code">QR code</string>
+    <string name="qr_not_invite">This QR code is not a MessWise invite</string>
     <string name="question_sent">Question sent to the manager</string>
     <string name="questions">Questions</string>
     <string name="reason">Reason</string>
@@ -397,7 +400,8 @@
     <string name="rep_tea_expenses_d">Every tea purchase, the total, cups made and the rate per cup</string>
     <string name="reports">Reports</string>
     <string name="reports_hint">Reports are made on your phone. Everyone in the group can download them.</string>
-    <string name="request_sent_body">The manager of %1$s will approve you. You will get a notification.</string>
+    <string name="request_sent_body">Request sent to %1$s. Waiting for the manager to approve it.</string>
+    <string name="request_sent_hint">This screen opens the place by itself when the manager approves. You can also go back: it will show in your list.</string>
     <string name="request_sent_title">Request sent</string>
     <string name="request_waiting">Waiting for the manager to approve</string>
     <string name="retry">Try again</string>
@@ -424,6 +428,7 @@
     <string name="saved">Saved</string>
     <string name="saved_to_downloads">Saved to Downloads/MessWise</string>
     <string name="scan_qr">Scan QR</string>
+    <string name="scanner_not_ready">The QR scanner is getting ready. Try again in a minute, or type the code.</string>
     <string name="select_all">Select all</string>
     <string name="select_none">Clear</string>
     <string name="send">Send</string>
@@ -444,7 +449,7 @@
     <string name="setup_title">Your name</string>
     <string name="share">Share</string>
     <string name="share_file">Share</string>
-    <string name="share_join_text">Join %1$s on MessWise to see our tea and kitchen bills. Code: %2$s\nGet the app: %3$s</string>
+    <string name="share_join_text">Join %1$s on MessWise to see our tea and kitchen bills. Code: %2$s\nOpen: %3$s</string>
     <string name="share_my_tally">Share my tea marks</string>
     <string name="share_my_tally_hint">The manager sees your private marks for this month next to their count.</string>
     <string name="share_per_head">Share per head</string>
