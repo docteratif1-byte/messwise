@@ -382,7 +382,7 @@ fun RemindScreen(placeId: String, onBack: () -> Unit) {
                                 Checkbox(id in picked, { if (it) picked.add(id) else picked.remove(id) })
                                 Column(Modifier.weight(1f)) {
                                     Text(list.first().memberName, fontWeight = FontWeight.SemiBold)
-                                    SmallLabel(list.joinToString(", ") { billTitle(it) })
+                                    SmallLabel(list.map { billTitle(it) }.joinToString(", "))
                                 }
                                 Text(money(list.sumOf { it.remainingPaisa }), color = LocalStatus.current.owe, fontWeight = FontWeight.Bold)
                             }
