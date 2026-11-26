@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # MessWise Urdu fonts: the same two fonts as Dr Jason Partner and MohallaCircle (Atif, 27 Nov 2026):
 #
-#   app/src/main/res/font/mw_jameel_noori.ttf     Urdu text      from Jameel Noori Nastaleeq
-#   app/src/main/res/font/mw_jameel_kasheeda.ttf  Urdu headings  from Jameel Noori Nastaleeq Kasheeda
+#   app/src/main/assets/fonts/mw_jameel_noori.ttf     Urdu text      from Jameel Noori Nastaleeq
+#   app/src/main/assets/fonts/mw_jameel_kasheeda.ttf  Urdu headings  from Jameel Noori Nastaleeq Kasheeda
 #
 # Same method as MohallaCircle's tools/urdu-fonts/build.py:
 #   * every shape is kept (members type their own Urdu names and items, so the fonts are not trimmed to app words);
@@ -18,7 +18,7 @@ import ctypes as C, glob, io, json, lzma, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.normpath(os.path.join(HERE, "..", ".."))
-OUT_DIR = os.path.join(ROOT, "app", "src", "main", "res", "font")
+OUT_DIR = os.path.join(ROOT, "app", "src", "main", "assets", "fonts")
 SRC_DIR = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "src")
 SCALE = 1.35  # same enlargement Dr Jason Partner applies with CSS size-adjust
 FONTS = [("JameelNooriNastaleeq.ttf.xz", "mw_jameel_noori.ttf", "MW Jameel Noori"),

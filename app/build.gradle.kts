@@ -73,6 +73,11 @@ android {
         buildConfig = true
     }
 
+    // The Urdu fonts stay uncompressed in the APK so Android maps them straight from the file (no 10 MB copies in memory).
+    androidResources {
+        noCompress += "ttf"
+    }
+
     packaging {
         resources.excludes += setOf("/META-INF/{AL2.0,LGPL2.1}", "/META-INF/LICENSE.md", "/META-INF/LICENSE-notice.md", "DebugProbesKt.bin")
     }
@@ -95,6 +100,7 @@ kotlin {
             "androidx.compose.foundation.ExperimentalFoundationApi",
             "androidx.compose.foundation.layout.ExperimentalLayoutApi",
             "androidx.compose.ui.ExperimentalComposeUiApi",
+            "androidx.compose.ui.text.ExperimentalTextApi",
             "kotlinx.serialization.ExperimentalSerializationApi",
         )
     }

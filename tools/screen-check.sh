@@ -12,9 +12,13 @@ open_app() {  # $1 = file name
   adb shell am start -W -n $PKG/$ACT
   sleep 15
   adb exec-out screencap -p > "screens/$1.png"
+  # The test build's sample home cards (FontCheckActivity, not in the Play app).
+  adb shell am start -W -n $PKG/com.kodawick.messwise.FontCheckActivity
+  sleep 8
+  adb exec-out screencap -p > "screens/$1-home-sample.png"
 }
 # 1. Urdu chosen inside the app (per-app language, as in the app's Settings).
-adb shell cmd locale set-app-locales $PKG --locales ur
+adb shell cmd locale set-app-locales $PKG --user 0 --locales ur
 adb shell cmd locale get-app-locales $PKG
 open_app urdu-app-language
 # 2. Whole phone in Urdu.

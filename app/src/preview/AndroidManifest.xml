@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Test build only: a screen of sample home cards, opened by the CI emulator to check the fonts. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <activity
+            android:name="com.kodawick.messwise.FontCheckActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Messwise" />
+    </application>
+</manifest>

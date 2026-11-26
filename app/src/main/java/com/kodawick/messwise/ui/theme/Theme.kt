@@ -14,7 +14,11 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
+import android.content.Context
+import androidx.compose.ui.text.font.AndroidFont
+import androidx.compose.ui.text.font.FontLoadingStrategy
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
@@ -102,17 +106,32 @@ private val Dark = darkColorScheme(
  * Urdu fonts, the same as Dr Jason Partner and MohallaCircle: Jameel Noori Nastaleeq for text and
  * Jameel Noori Nastaleeq Kasheeda for headings ("free of charge for Urdu lovers"). Built by
  * tools/urdu-fonts/build.py: enlarged 1.35x inside the font, with Latin letters, digits and spaces left
- * out so Android draws those with the phone's normal font. Nastaleeq has one weight, so every weight
- * points at the same file (no fake bold, which smears Nastaleeq).
+ * out so Android draws those with the phone's normal font.
+ *
+ * Nastaleeq has one weight. Each requested weight gets its own Typeface from the same file that declares
+ * that weight: the Urdu shapes are never fake-bolded (which smears Nastaleeq), while the English words and
+ * digits, which come from the phone's font, still show in bold where the design asks for bold.
  */
-private fun nastaleeq(res: Int) = FontFamily(
-    Font(res, FontWeight.Normal),
-    Font(res, FontWeight.Medium),
-    Font(res, FontWeight.SemiBold),
-    Font(res, FontWeight.Bold),
+private class Nastaleeq(val path: String, override val weight: FontWeight) :
+    AndroidFont(FontLoadingStrategy.Blocking, Loader, FontVariation.Settings()) {
+    override val style: FontStyle = FontStyle.Normal
+
+    private object Loader : AndroidFont.TypefaceLoader {
+        override fun loadBlocking(context: Context, font: AndroidFont): android.graphics.Typeface? {
+            val f = font as Nastaleeq
+            return android.graphics.Typeface.Builder(context.assets, f.path).setWeight(f.weight.weight).setItalic(false).build()
+        }
+        override suspend fun awaitLoad(context: Context, font: AndroidFont): android.graphics.Typeface? = loadBlocking(context, font)
+    }
+
+    override fun toString() = "Nastaleeq($path, ${weight.weight})"
+}
+
+private fun nastaleeq(path: String) = FontFamily(
+    listOf(FontWeight.Normal, FontWeight.Medium, FontWeight.SemiBold, FontWeight.Bold).map { Nastaleeq(path, it) },
 )
-private val JameelNoori = nastaleeq(R.font.mw_jameel_noori)
-private val JameelKasheeda = nastaleeq(R.font.mw_jameel_kasheeda)
+private val JameelNoori = nastaleeq("fonts/mw_jameel_noori.ttf")
+private val JameelKasheeda = nastaleeq("fonts/mw_jameel_kasheeda.ttf")
 
 /** Nastaleeq needs taller lines than Latin text; the line box is centred so nothing is cut off. */
 private fun TextStyle.urdu(family: FontFamily) = copy(
