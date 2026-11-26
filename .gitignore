@@ -12,3 +12,4 @@ captures/
 !app/debug.keystore
 signing/
 __pycache__/
+screens/

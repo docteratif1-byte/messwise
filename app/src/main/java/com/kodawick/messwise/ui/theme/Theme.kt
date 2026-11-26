@@ -12,7 +12,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -98,29 +98,42 @@ private val Dark = darkColorScheme(
     error = Color(0xFFFF8A7A), onError = Color(0xFF4A0B05), errorContainer = Color(0xFF5C1D16), onErrorContainer = Color(0xFFFBE3E0),
 )
 
-/** Noto Nastaliq Urdu (SIL Open Font License 1.1). */
-private val Nastaliq = FontFamily(
-    Font(R.font.noto_nastaliq_urdu, FontWeight.Normal),
-    Font(R.font.noto_nastaliq_urdu, FontWeight.Medium),
-    Font(R.font.noto_nastaliq_urdu, FontWeight.SemiBold),
-    Font(R.font.noto_nastaliq_urdu, FontWeight.Bold),
+/**
+ * Urdu fonts, the same as Dr Jason Partner and MohallaCircle: Jameel Noori Nastaleeq for text and
+ * Jameel Noori Nastaleeq Kasheeda for headings ("free of charge for Urdu lovers"). Built by
+ * tools/urdu-fonts/build.py: enlarged 1.35x inside the font, with Latin letters, digits and spaces left
+ * out so Android draws those with the phone's normal font. Nastaleeq has one weight, so every weight
+ * points at the same file (no fake bold, which smears Nastaleeq).
+ */
+private fun nastaleeq(res: Int) = FontFamily(
+    Font(res, FontWeight.Normal),
+    Font(res, FontWeight.Medium),
+    Font(res, FontWeight.SemiBold),
+    Font(res, FontWeight.Bold),
 )
+private val JameelNoori = nastaleeq(R.font.mw_jameel_noori)
+private val JameelKasheeda = nastaleeq(R.font.mw_jameel_kasheeda)
 
 /** Nastaleeq needs taller lines than Latin text; the line box is centred so nothing is cut off. */
-private fun TextStyle.nastaliq() = copy(
-    fontFamily = Nastaliq,
-    lineHeight = 1.9.em,
+private fun TextStyle.urdu(family: FontFamily) = copy(
+    fontFamily = family,
+    lineHeight = 2.0.em,
     lineHeightStyle = LineHeightStyle(LineHeightStyle.Alignment.Center, LineHeightStyle.Trim.None),
 )
 
 private val Base = Typography()
 
 private val UrduTypography = Typography(
-    displayLarge = Base.displayLarge.nastaliq(), displayMedium = Base.displayMedium.nastaliq(), displaySmall = Base.displaySmall.nastaliq(),
-    headlineLarge = Base.headlineLarge.nastaliq(), headlineMedium = Base.headlineMedium.nastaliq(), headlineSmall = Base.headlineSmall.nastaliq(),
-    titleLarge = Base.titleLarge.nastaliq(), titleMedium = Base.titleMedium.nastaliq(), titleSmall = Base.titleSmall.nastaliq(),
-    bodyLarge = Base.bodyLarge.nastaliq(), bodyMedium = Base.bodyMedium.nastaliq(), bodySmall = Base.bodySmall.nastaliq(),
-    labelLarge = Base.labelLarge.nastaliq(), labelMedium = Base.labelMedium.nastaliq(), labelSmall = Base.labelSmall.nastaliq(),
+    // Headings: Kasheeda.
+    displayLarge = Base.displayLarge.urdu(JameelKasheeda), displayMedium = Base.displayMedium.urdu(JameelKasheeda),
+    displaySmall = Base.displaySmall.urdu(JameelKasheeda),
+    headlineLarge = Base.headlineLarge.urdu(JameelKasheeda), headlineMedium = Base.headlineMedium.urdu(JameelKasheeda),
+    headlineSmall = Base.headlineSmall.urdu(JameelKasheeda),
+    titleLarge = Base.titleLarge.urdu(JameelKasheeda), titleMedium = Base.titleMedium.urdu(JameelKasheeda),
+    // Text: Noori.
+    titleSmall = Base.titleSmall.urdu(JameelNoori),
+    bodyLarge = Base.bodyLarge.urdu(JameelNoori), bodyMedium = Base.bodyMedium.urdu(JameelNoori), bodySmall = Base.bodySmall.urdu(JameelNoori),
+    labelLarge = Base.labelLarge.urdu(JameelNoori), labelMedium = Base.labelMedium.urdu(JameelNoori), labelSmall = Base.labelSmall.urdu(JameelNoori),
 )
 
 private val AppShapes = Shapes(
@@ -138,7 +151,8 @@ fun MesswiseTheme(themePref: String = "system", content: @Composable () -> Unit)
         "light" -> false
         else -> isSystemInDarkTheme()
     }
-    val urdu = LocalConfiguration.current.locales[0].language == "ur"
+    // True exactly when the Urdu texts are on screen (values-ur), whether Urdu was chosen in the app or on the phone.
+    val urdu = booleanResource(R.bool.urdu_ui)
     CompositionLocalProvider(LocalStatus provides if (dark) DarkStatus else LightStatus) {
         MaterialTheme(
             colorScheme = if (dark) Dark else Light,

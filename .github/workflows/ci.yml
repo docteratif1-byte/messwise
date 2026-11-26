@@ -13,7 +13,7 @@ jobs:
   android:
     name: Tests, APK and AAB
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 75
     permissions:
       contents: write
     steps:
@@ -35,6 +35,23 @@ jobs:
         run: |
           set -o pipefail
           ./gradlew --no-daemon --warning-mode none bundleRelease assembleRelease 2>&1 | tee -a build.log
+      - name: Enable KVM for the emulator
+        if: success()
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Urdu and English screens on an emulator
+        if: success()
+        continue-on-error: true
+        timeout-minutes: 20
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          disable-animations: true
+          script: bash tools/screen-check.sh
       - name: Build errors
         if: failure()
         shell: bash
@@ -48,6 +65,7 @@ jobs:
         run: |
           out="$RUNNER_TEMP/out"; mkdir -p "$out/tools" "$out/reports"
           cp build.log "$out/" 2>/dev/null || true
+          mkdir -p "$out/screens" && cp screens/*.png "$out/screens/" 2>/dev/null || true
           grep -E '^e: |^w: .*(deprecated|unused)|error:|What went wrong|FAILED' build.log | head -400 > "$out/errors.txt" 2>/dev/null || true
           cp app/build/outputs/apk/preview/*.apk "$out/Messwise-test.apk" 2>/dev/null || true
           cp app/build/outputs/bundle/release/*.aab "$out/Messwise-release-unsigned.aab" 2>/dev/null || true

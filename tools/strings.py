@@ -560,7 +560,7 @@ S = {
     "how_paid_works": ("Paying: send the amount with a slip. Only the canteen manager marks a bill paid. Pending bills are visible to everyone.",
                        "ادائیگی: رقم رسید کے ساتھ بھیجیں۔ بل صرف کینٹین مینیجر ادا شدہ لکھتا ہے۔ باقی بل سب کو نظر آتے ہیں۔"),
     "open_source_licences": ("Fonts and licences", "فونٹس اور لائسنس"),
-    "font_licence": ("Noto Nastaliq Urdu, SIL Open Font License 1.1", "Noto Nastaliq Urdu، SIL Open Font License 1.1"),
+    "font_licence": ("Urdu: Jameel Noori Nastaleeq and Jameel Noori Nastaleeq Kasheeda, free of charge for Urdu lovers", "اردو: جمیل نوری نستعلیق اور جمیل نوری نستعلیق کشیدہ، اردو سے محبت کرنے والوں کے لیے مفت"),
 
     # ---------------------------------------------------------------- statuses
     "st_paid": ("Paid", "ادا شدہ"),
