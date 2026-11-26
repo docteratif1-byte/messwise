@@ -11,7 +11,7 @@ The app reads the Google client ID from the server (`messwise.settings.google_we
    - `com.kodawick.messwise.test`, SHA-1 `C1:3F:F6:3F:E0:E8:E7:C6:0C:4A:0B:E9:2B:E2:58:6B:82:A8:B7:2C` (test APK)
    - after the first Play upload: `com.kodawick.messwise`, SHA-1 of the **App signing key**
 
-## 2. Supabase (project shared with Comitto)
+## 2. Supabase (KodaWick → messwise project)
 Authentication → Sign In / Providers → Google: add the MessWise Web Client ID to **Client IDs** (comma-separated, after Comitto's). Keep the existing secret.
 
 ## 3. Tell the app

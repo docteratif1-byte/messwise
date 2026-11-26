@@ -9,8 +9,9 @@ plugins {
 
 // Public client settings. Messwise lives in its own "messwise" schema inside the Comitto Supabase project.
 // The anon key only allows calling the checked mw_* functions as a signed-in user; it is safe to ship.
-val supabaseUrl = "https://mvgezwubvnmftnmkzgts.supabase.co"
-val supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12Z2V6d3Vidm5tZnRubWt6Z3RzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyMjg2NzAsImV4cCI6MjExMDgwNDY3MH0.ruWXZSl8h4M0QFS9Mm57SZBw8rc66mMKrM3vEMxlP9Q"
+val supabaseUrl = "https://nqyljmrcnbwkwxmgjnzj.supabase.co"
+// Publishable key of the KodaWick "messwise" Supabase project (safe to ship; every table has row-level security).
+val supabaseAnonKey = "sb_publishable_B1i80jbiWXPNQWX-GxeGHw_WNl8Onq6"
 
 android {
     namespace = "com.kodawick.messwise"

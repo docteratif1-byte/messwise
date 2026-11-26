@@ -20,8 +20,8 @@ Use Play App Signing (default). After the first upload, add the **App signing ke
 Debug / test key (in the repo, `app/debug.keystore`): SHA-1 `C1:3F:F6:3F:E0:E8:E7:C6:0C:4A:0B:E9:2B:E2:58:6B:82:A8:B7:2C`.
 
 ## Backend
-Supabase free plan, inside the existing project `mvgezwubvnmftnmkzgts`, private schema `messwise`. The app calls only `public.mw_*` functions (SECURITY DEFINER, row-level security on every table, no table grants). Photos go to the private `messwise` storage bucket (3 MB, images and PDF).
-Migrations: `supabase/migrations/0001` to `0004`. Local tests: `supabase/tests/reset.sh && python3 supabase/tests/run_tests.py` (122 checks).
+Supabase free plan: organisation **KodaWick**, project **messwise** (`nqyljmrcnbwkwxmgjnzj`, Tokyo), owned by docter.atif1@gmail.com (sign in with GitHub). Private schema `messwise`. The app uses the project's publishable key. The app calls only `public.mw_*` functions (SECURITY DEFINER, row-level security on every table, no table grants). Photos go to the private `messwise` storage bucket (3 MB, images and PDF).
+Migrations: `supabase/migrations/0001` to `0004`; `supabase/live/messwise_full_setup.sql` is the same four in one file, run once in the SQL editor on 26 Nov 2026. Local tests: `supabase/tests/reset.sh && python3 supabase/tests/run_tests.py` (122 checks).
 
 ## Closed test (new personal Play account)
 At least 12 testers opted in for 14 days in a row before production access can be requested. The tester list is kept privately, not in this repo.

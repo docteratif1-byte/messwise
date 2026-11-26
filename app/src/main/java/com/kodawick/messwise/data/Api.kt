@@ -64,7 +64,7 @@ class Api(private val session: Session, private val cache: Cache) {
     /** Public settings readable before sign-in (Google client id, minimum app version, support email). */
     suspend fun appConfig(): JsonObject {
         val req = Request.Builder().url("${Http.base}/rest/v1/rpc/mw_app_config")
-            .header("apikey", Http.anonKey).header("Authorization", "Bearer ${Http.anonKey}")
+            .header("apikey", Http.anonKey)
             .post(Http.jsonBody(JsonObject(emptyMap()))).build()
         val (code, text) = Http.execute(req)
         if (code !in 200..299) throw Http.error(code, text)
