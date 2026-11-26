@@ -15,7 +15,13 @@ jarsigner -keystore messwise-upload.jks -sigalg SHA256withRSA -digestalg SHA-256
   -signedjar Messwise-1.0.0-release.aab Messwise-release-unsigned.aab messwise
 jarsigner -verify Messwise-1.0.0-release.aab
 ```
-Use Play App Signing (default). After the first upload, add the **App signing key SHA-1** from Play Console → Test and release → App integrity to the Android OAuth client (GOOGLE_SIGN_IN.md).
+Play App Signing is on. App signing key SHA-1 `E8:F1:78:3B:69:A5:20:20:D0:03:60:E1:35:CE:BD:8E:B8:05:0E:EF` (earlier key `38:7B:31:70:13:6D:F6:31:CC:5B:35:70:9A:EE:27:A3:CB:07:0C:12`); both are Android OAuth clients (GOOGLE_SIGN_IN.md).
+
+## Status (26 Nov 2026)
+- Play app **MessWise: Mess & Tea Bills** (app id 4973624961961626003) created under the KodaWick developer account.
+- Release 1 (1.0.0) on **Closed testing - Alpha**, 178 countries, email list "MessWise testers" (24), feedback kodawick4+messwise@gmail.com. Sent for review with the store listing and all App content declarations.
+- Upload bundle: `MessWise-1.0.0.aab` with the R8 mapping removed (Chrome upload limit). Upload `mapping-1.0.0.txt` later from App bundle explorer for readable crash reports.
+- Production needs 12+ testers opted in for 14 days, then Apply for production.
 
 Debug / test key (in the repo, `app/debug.keystore`): SHA-1 `C1:3F:F6:3F:E0:E8:E7:C6:0C:4A:0B:E9:2B:E2:58:6B:82:A8:B7:2C`.
 

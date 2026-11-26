@@ -24,8 +24,12 @@ MessWise only records expenses and payments. Members pay the manager outside the
 
 Made by KodaWick.
 
+## Graphics
+- Icon `store/icon-512.png`, feature graphic `store/feature-graphic-1024x500.png`.
+- Phone screenshots `store/screens/01–04*.png` (1080×1920): drawn from the app's own layout, colours and texts with sample data by `store/screens/gen.py`; labelled as AI-made in Play. Replace with real phone screenshots when convenient.
+
 ## Data safety (answers)
-- Collects: name and email (personal info); purchase, bill and payment amounts (financial info → "Other financial info", no card or bank numbers); photos the user uploads (receipts and payment slips); app activity (history of changes inside a group).
+- Collects (as declared 26 Nov 2026): Name, Email address, User IDs (required; app functionality + account management); Other financial info (required; app functionality); Other in-app messages and Photos (optional; app functionality). Account creation: OAuth (Google). Nothing shared, encrypted in transit.
 - Purpose: app functionality and account management. Not shared with third parties. No ads, no analytics SDK.
 - Encrypted in transit: yes. Users can delete their account: yes, in the app and by URL.
 
