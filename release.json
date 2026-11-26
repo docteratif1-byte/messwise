@@ -1,0 +1,11 @@
+{
+  "aab": "MessWise-1.0.2.aab",
+  "name": "1.0.2",
+  "version_code": 3,
+  "track": "alpha",
+  "notes": {
+    "en": "Entries, bills and payments are now added only by the Canteen Manager; the owner looks after members, roles and leave. Parties can include non-members, who pay their share on the spot; the total is divided on everyone who attended. Also in this update: Jameel Noori Nastaleeq for Urdu, joining by code, QR or link fixed, and each member sees only what they are part of.",
+    "ur": "اندراجات، بل اور ادائیگیاں اب صرف کینٹین مینیجر شامل کرتا ہے؛ مالک ارکان، عہدے اور چھٹی دیکھتا ہے۔ پارٹی میں غیر ارکان بھی شامل ہو سکتے ہیں جو اپنا حصہ موقع پر ادا کرتے ہیں؛ کل رقم تمام شرکاء میں تقسیم ہوتی ہے۔ اس کے علاوہ اردو جمیل نوری نستعلیق میں، کوڈ، QR یا لنک سے شامل ہونا ٹھیک، اور ہر رکن کو صرف وہی نظر آتا ہے جس میں وہ شامل ہے۔"
+  },
+  "sha256": "729def1c8eb6989b7e205b52a788bbf9b6513b5b6f61b47852c9727607d86a9f"
+}
