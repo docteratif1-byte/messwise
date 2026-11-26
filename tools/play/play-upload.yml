@@ -1,0 +1,36 @@
+# Runs on the play-upload branch only (made by tools/play/release.sh): uploads the signed app bundle on
+# that branch to Google Play. GitHub signs in to Google through Workload Identity Federation, so no key
+# or password is stored anywhere. The Google service account may only release MessWise to testing tracks.
+name: Upload to Google Play
+
+on:
+  push:
+    branches: [play-upload]
+
+concurrency:
+  group: play-upload
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  upload:
+    name: Upload signed bundle
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/593038022726/locations/global/workloadIdentityPools/github/providers/github-actions
+          service_account: messwise-play-upload@messwise-515915.iam.gserviceaccount.com
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/androidpublisher
+          access_token_lifetime: 1200s
+      - name: Upload to the track and send for review
+        env:
+          PLAY_TOKEN: ${{ steps.auth.outputs.access_token }}
+        run: python3 play_upload.py
